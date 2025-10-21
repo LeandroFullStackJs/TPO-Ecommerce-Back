@@ -38,6 +38,7 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/demo/**").permitAll() // Demo endpoints for testing exceptions
                 .requestMatchers("/api/productos", "/api/productos/{id}", "/api/productos/buscar", "/api/productos/destacados", "/api/productos/categoria/{categoriaId}").permitAll() // GET operations public
                 .requestMatchers("/api/categorias", "/api/categorias/{id}").permitAll() // Categories public
                 .requestMatchers("/api/artistas", "/api/artistas/{id}", "/api/artistas/buscar").permitAll() // GET artistas public

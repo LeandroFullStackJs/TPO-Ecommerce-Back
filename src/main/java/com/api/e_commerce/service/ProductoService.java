@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.api.e_commerce.exception.ProductoNotFoundException;
+import com.api.e_commerce.exception.CategoriaNotFoundException;
 import com.api.e_commerce.model.Producto;
 import com.api.e_commerce.model.Categoria;
 import com.api.e_commerce.repository.ProductoRepository;
@@ -26,6 +28,9 @@ public class ProductoService {
     
     @Autowired
     private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private ValidationService validationService;
 
     public List<ProductoDTO> getAllProductos() {
         return productoRepository.findAll().stream()
@@ -59,11 +64,21 @@ public class ProductoService {
     }
 
     public Optional<ProductoDTO> getProductoById(Long id) {
+        validationService.validarId(id, "producto");
         return productoRepository.findById(id)
                 .map(this::convertirADTO);
     }
 
     public ProductoDTO crearProducto(ProductoCreateDTO productoCreateDTO) {
+        // Validaciones de negocio
+        validationService.validarTextoNoVacio(productoCreateDTO.getNombre(), "nombre");
+        validationService.validarPrecio(productoCreateDTO.getPrecio());
+        validationService.validarStock(productoCreateDTO.getStock());
+        
+        if (productoCreateDTO.getAnio() != null) {
+            validationService.validarAnio(productoCreateDTO.getAnio());
+        }
+        
         Producto producto = convertirAEntidad(productoCreateDTO);
         producto.setFechaCreacion(LocalDateTime.now());
         producto.setFechaActualizacion(LocalDateTime.now());
@@ -71,6 +86,12 @@ public class ProductoService {
         // Asociar categorías si se proporcionaron
         if (productoCreateDTO.getCategoriaIds() != null && !productoCreateDTO.getCategoriaIds().isEmpty()) {
             List<Categoria> categorias = categoriaRepository.findAllById(productoCreateDTO.getCategoriaIds());
+            
+            // Verificar que todas las categorías existen
+            if (categorias.size() != productoCreateDTO.getCategoriaIds().size()) {
+                throw new CategoriaNotFoundException("Una o más categorías no fueron encontradas");
+            }
+            
             producto.setCategorias(categorias);
         }
         
@@ -79,10 +100,29 @@ public class ProductoService {
     }
 
     public void deleteProducto(Long id) {
+        validationService.validarId(id, "producto");
+        
+        if (!productoRepository.existsById(id)) {
+            throw new ProductoNotFoundException(id);
+        }
+        
         productoRepository.deleteById(id);
     }    
 
     public ProductoDTO updateProducto(Long id, ProductoUpdateDTO productoDTO) {
+        validationService.validarId(id, "producto");
+        
+        // Validaciones de los datos a actualizar
+        if (productoDTO.getPrecio() != null) {
+            validationService.validarPrecio(productoDTO.getPrecio());
+        }
+        if (productoDTO.getStock() != null) {
+            validationService.validarStock(productoDTO.getStock());
+        }
+        if (productoDTO.getAnio() != null) {
+            validationService.validarAnio(productoDTO.getAnio());
+        }
+        
         return productoRepository.findById(id)
             .map(producto -> {
                 actualizarCamposProducto(producto, productoDTO);
@@ -91,13 +131,19 @@ public class ProductoService {
                 // Actualizar categorías si se proporcionaron
                 if (productoDTO.getCategoriaIds() != null) {
                     List<Categoria> categorias = categoriaRepository.findAllById(productoDTO.getCategoriaIds());
+                    
+                    // Verificar que todas las categorías existen
+                    if (categorias.size() != productoDTO.getCategoriaIds().size()) {
+                        throw new CategoriaNotFoundException("Una o más categorías no fueron encontradas");
+                    }
+                    
                     producto.setCategorias(categorias);
                 }
                 
                 Producto productoActualizado = productoRepository.save(producto);
                 return convertirADTO(productoActualizado);
             })
-            .orElse(null);
+            .orElseThrow(() -> new ProductoNotFoundException(id));
     }
     
     private void actualizarCamposProducto(Producto producto, ProductoUpdateDTO dto) {

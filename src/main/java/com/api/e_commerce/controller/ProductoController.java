@@ -67,10 +67,8 @@ public class ProductoController {
     public ResponseEntity<ProductoDTO> getProductoById(@PathVariable Long id) {
         Optional<ProductoDTO> producto = productoService.getProductoById(id);
         return producto.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    // Crear nuevo producto (requiere autenticación)
+                      .orElseThrow(() -> new com.api.e_commerce.exception.ProductoNotFoundException(id));
+    }    // Crear nuevo producto (requiere autenticación)
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<ProductoDTO> crearProducto(@Valid @RequestBody ProductoCreateDTO productoCreateDTO) {
