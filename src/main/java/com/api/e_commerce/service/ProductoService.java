@@ -78,6 +78,13 @@ public class ProductoService {
         if (productoCreateDTO.getAnio() != null) {
             validationService.validarAnio(productoCreateDTO.getAnio());
         }
+
+        //Validacion URL
+        validationService.validarURL(productoCreateDTO.getImagen(), "imagen");
+        validationService.validarURL(productoCreateDTO.getImagenAdicional1(), "imagenAdicional1");
+        validationService.validarURL(productoCreateDTO.getImagenAdicional2(), "imagenAdicional2");
+        validationService.validarURL(productoCreateDTO.getImagenAdicional3(), "imagenAdicional3");
+
         
         Producto producto = convertirAEntidad(productoCreateDTO);
         producto.setFechaCreacion(LocalDateTime.now());
@@ -123,6 +130,19 @@ public class ProductoService {
             validationService.validarAnio(productoDTO.getAnio());
         }
         
+        if (productoDTO.getImagen() != null) {
+            validationService.validarURL(productoDTO.getImagen(), "imagen");
+        }
+        if (productoDTO.getImagenAdicional1() != null) {
+            validationService.validarURL(productoDTO.getImagenAdicional1(), "imagenAdicional1");
+        }
+        if (productoDTO.getImagenAdicional2() != null) {
+            validationService.validarURL(productoDTO.getImagenAdicional2(), "imagenAdicional2");
+        }
+        if (productoDTO.getImagenAdicional3() != null) {
+            validationService.validarURL(productoDTO.getImagenAdicional3(), "imagenAdicional3");
+        }
+
         return productoRepository.findById(id)
             .map(producto -> {
                 actualizarCamposProducto(producto, productoDTO);

@@ -18,6 +18,9 @@ public class ArtistaService {
     @Autowired
     private ArtistaRepository artistaRepository;
 
+    @Autowired
+    private ValidationService validationService;
+
     public List<ArtistaDTO> getAllArtistas() {
         return artistaRepository.findByActivoTrue().stream()
                 .map(this::convertirADTO)
@@ -31,11 +34,20 @@ public class ArtistaService {
     }
 
     public ArtistaDTO crearArtista(ArtistaCreateDTO artistaCreateDTO) {
-        // Validar email único
-        if (artistaCreateDTO.getEmail() != null && artistaRepository.existsByEmail(artistaCreateDTO.getEmail())) {
-            throw new RuntimeException("Ya existe un artista con este email");
+        validatioService.validarTextoNoVacio(artistaCreateDTO.getNombre(), "nombre");
+
+        if (artistaCreateDTO.getEmail() != null && !artistaCreateDTO.getEmail().isEmpty()) {
+            validationService.validarEmail(artistaCreateDTO.getEmail());
+            if (artistaCreateDTO.getEmail() != null && artistaRepository.existsByEmail(artistaCreateDTO.getEmail())) {
+                throw new RuntimeException("Ya existe un artista con este email");
+            }
+        } else {
+            validationService.validarTextoNoVacio(artistaCreateDTO.getEmail(), "email");
+            }
         }
-        
+
+        validationService.validarURL(artistaCreateDTO.getImagenPerfil(), "imagenPerfil");
+
         Artista artista = convertirAEntidad(artistaCreateDTO);
         artista.setFechaCreacion(LocalDateTime.now());
         artista.setFechaActualizacion(LocalDateTime.now());
@@ -45,14 +57,22 @@ public class ArtistaService {
     }
 
     public Optional<ArtistaDTO> actualizarArtista(Long id, ArtistaUpdateDTO artistaUpdateDTO) {
+        validationService.validarId(id, "artista");        
         return artistaRepository.findById(id).map(artista -> {
             // Validar email único si se está cambiando
-            if (artistaUpdateDTO.getEmail() != null && 
-                !artistaUpdateDTO.getEmail().equals(artista.getEmail()) &&
-                artistaRepository.existsByEmailAndIdNot(artistaUpdateDTO.getEmail(), id)) {
-                throw new RuntimeException("Ya existe un artista con este email");
+            if (artistaUpdateDTO.getEmail() != null && !artistaUpdateDTO.getEmail().trim().isEmpty()) {
+                 validationService.validarEmail(artistaUpdateDTO.getEmail());
+                 // Validar email único solo si se está cambiando y el nuevo email ya existe para OTRO artista
+                 if (!artistaUpdateDTO.getEmail().equalsIgnoreCase(artista.getEmail()) &&
+                    artistaRepository.existsByEmailAndIdNot(artistaUpdateDTO.getEmail(), id)) {
+                    throw new com.api.e_commerce.exception.DuplicateDataException("artista", "email", artistaUpdateDTO.getEmail());
+                 }
             }
             
+            if (artistaUpdateDTO.getImagenPerfil() != null) {
+                validationService.validarURL(artistaUpdateDTO.getImagenPerfil(), "imagenPerfil");
+            }
+
             actualizarCampos(artista, artistaUpdateDTO);
             artista.setFechaActualizacion(LocalDateTime.now());
             

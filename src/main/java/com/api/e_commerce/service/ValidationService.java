@@ -18,6 +18,12 @@ public class ValidationService {
     private static final Pattern PHONE_PATTERN = 
         Pattern.compile("^[+]?[0-9]{10,15}$");
 
+    // Patrones para complejidad de contraseña
+    private static final Pattern UPPERCASE_PATTERN = Pattern.compile(".*[A-Z].*");
+    private static final Pattern LOWERCASE_PATTERN = Pattern.compile(".*[a-z].*");
+    private static final Pattern DIGIT_PATTERN = Pattern.compile(".*\\d.*");
+    private static final Pattern SYMBOL_PATTERN = Pattern.compile(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+
     /**
      * Valida que un precio sea válido (no negativo)
      */
@@ -124,7 +130,20 @@ public class ValidationService {
      */
     public void validarPassword(String password) {
         validarLongitudMinima(password, "password", 6);
-        // Aquí puedes agregar más validaciones de seguridad si necesitas
+        
+        if (!UPPERCASE_PATTERN.matcher(password).matches()) {
+            throw new InvalidDataException("password", "****", "La contraseña debe contener al menos una mayúscula");
+        }
+        if (!LOWERCASE_PATTERN.matcher(password).matches()) {
+            throw new InvalidDataException("password", "****", "La contraseña debe contener al menos una minúscula");
+        }
+        if (!DIGIT_PATTERN.matcher(password).matches()) {
+            throw new InvalidDataException("password", "****", "La contraseña debe contener al menos un número");
+        }
+        if (!SYMBOL_PATTERN.matcher(password).matches()) { // Descomenta si requieres símbolos
+             throw new InvalidDataException("password", "****", "La contraseña debe contener al menos un símbolo");
+         }
+
     }
 
     /**
@@ -139,4 +158,10 @@ public class ValidationService {
             }
         }
     }
+
+    public void validarUrl(String url, String campo) {
+        if (url != null && !url.trim().isEmpty()) {
+            if (!URL_PATTERN.matcher(url).matches()) {
+                throw new InvalidDataException(campo, url, "El formato de la URL no es válido para el campo " + campo);
+            }
 }
