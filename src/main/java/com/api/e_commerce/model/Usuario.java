@@ -26,25 +26,30 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotBlank(message = "El nombre es obligatorio")
+    @NotBlank(message = "El nombre de usuario es obligatorio")
     @Column(nullable = false)
-    private String nombre;
-    
-    @NotBlank(message = "El apellido es obligatorio")
-    @Column(nullable = false)
-    private String apellido;
+    private String username;
     
     @Email(message = "Email debe tener un formato válido")
     @NotBlank(message = "El email es obligatorio")
     @Column(nullable = false, unique = true)
     private String email;
-    
+
     @NotBlank(message = "La contraseña es obligatoria")
-    @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
-    @JsonIgnore
+        @Size(min = 6, message = "La contraseña debe tener al menos 6 caracteres")
+        @JsonIgnore
+        @Column(nullable = false)
+        private String password;
+
+    @NotBlank(message = "El nombre es obligatorio")
     @Column(nullable = false)
-    private String password;
+    private String nombre;
+
+    @NotBlank(message = "El apellido es obligatorio")
+    @Column(nullable = false)
+    private String apellido;
     
+
     @Column(nullable = false)
     private String role = "USER";
     
