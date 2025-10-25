@@ -24,6 +24,7 @@ public class PedidoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @SuppressWarnings("unused")
     @Autowired
     private ValidationService validationService; // Inyectar ValidationService
     

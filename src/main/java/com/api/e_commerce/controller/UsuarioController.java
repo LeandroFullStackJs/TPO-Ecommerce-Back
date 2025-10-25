@@ -52,10 +52,8 @@ public class UsuarioController {
     @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioDTO usuarioDTO) {
         // Dejamos que el service lance UsuarioNotFoundException si no existe
-        Optional<UsuarioDTO> usuarioActualizado = usuarioService.actualizarUsuario(id, usuarioDTO);
-        // El service ahora lanza excepción si no encuentra, así que no necesitamos el orElseThrow aquí.
-         return usuarioActualizado.map(ResponseEntity::ok)
-               .orElseThrow(() -> new UsuarioNotFoundException(id)); // Opcional, por si el service devuelve Optional vacío
+        UsuarioDTO usuarioActualizado = usuarioService.actualizarUsuario(id, usuarioDTO);
+        return ResponseEntity.ok(usuarioActualizado);
     }
 
     @DeleteMapping("/{id}")
@@ -67,6 +65,5 @@ public class UsuarioController {
              // Si eliminarUsuario devuelve false porque no existe, lanzar excepción
              throw new UsuarioNotFoundException(id);
         }
-        return ResponseEntity.notFound().build();
     }
 }

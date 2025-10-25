@@ -6,7 +6,6 @@ import com.api.e_commerce.dto.ArtistaCreateDTO;
 import com.api.e_commerce.dto.ArtistaUpdateDTO;
 import com.api.e_commerce.repository.ArtistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException; // IMPORTANTE
 import org.springframework.security.core.Authentication; // IMPORTANTE
 import org.springframework.security.core.context.SecurityContextHolder; // IMPORTANTE
 import org.springframework.stereotype.Service;

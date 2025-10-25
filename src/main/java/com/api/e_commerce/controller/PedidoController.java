@@ -77,6 +77,5 @@ public class PedidoController {
              // Si eliminarPedido devuelve false porque no existe, lanzar excepción
              throw new PedidoNotFoundException(id);
         }
-        return ResponseEntity.notFound().build();
     }
 }

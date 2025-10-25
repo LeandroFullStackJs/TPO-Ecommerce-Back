@@ -49,7 +49,7 @@ public class UsuarioService {
         return convertirADTO(usuarioGuardado);
     }
     
-    public Optional<UsuarioDTO> actualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
+    public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
         validationService.validarId(id, "usuario"); // Validar ID
         
         return usuarioRepository.findById(id)

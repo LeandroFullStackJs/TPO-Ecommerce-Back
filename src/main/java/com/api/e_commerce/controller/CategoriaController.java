@@ -67,6 +67,5 @@ public class CategoriaController {
              // Si eliminarCategoria devuelve false porque no existe, lanzar excepción
              throw new com.api.e_commerce.exception.CategoriaNotFoundException(id);
         }
-        return ResponseEntity.notFound().build();
     }
 }
