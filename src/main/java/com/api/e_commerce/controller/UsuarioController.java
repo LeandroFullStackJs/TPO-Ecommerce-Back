@@ -6,53 +6,66 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid; 
 
 import com.api.e_commerce.dto.UsuarioDTO;
+import com.api.e_commerce.exception.UsuarioNotFoundException; // Importar excepción
 import com.api.e_commerce.service.UsuarioService;
 
+
 @RestController
-@RequestMapping("/api/usuarios") //localhost:8080/api/usuarios
+@RequestMapping("/api/usuarios")
 @CrossOrigin(origins = "*")
 public class UsuarioController {
- 
+
     @Autowired
     private UsuarioService usuarioService;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
         List<UsuarioDTO> usuarios = usuarioService.getAllUsuarios();
         return ResponseEntity.ok(usuarios);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<UsuarioDTO> obtenerUsuarioPorId(@PathVariable Long id) {
+        // Dejamos que el service lance UsuarioNotFoundException si no existe
         Optional<UsuarioDTO> usuario = usuarioService.obtenerUsuarioPorId(id);
         return usuario.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .orElseThrow(() -> new UsuarioNotFoundException(id)); // Lanzar excepción para 404
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> crearUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        try {
-            UsuarioDTO nuevoUsuario = usuarioService.crearUsuario(usuarioDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UsuarioDTO> crearUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
+        // Se quita el try-catch.
+        // Nota: La creación de usuarios normales debe ser por /api/auth/register
+        UsuarioDTO nuevoUsuario = usuarioService.crearUsuario(usuarioDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
     }
-    
+
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
+    public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioDTO usuarioDTO) {
+        // Dejamos que el service lance UsuarioNotFoundException si no existe
         Optional<UsuarioDTO> usuarioActualizado = usuarioService.actualizarUsuario(id, usuarioDTO);
-        return usuarioActualizado.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        // El service ahora lanza excepción si no encuentra, así que no necesitamos el orElseThrow aquí.
+         return usuarioActualizado.map(ResponseEntity::ok)
+               .orElseThrow(() -> new UsuarioNotFoundException(id)); // Opcional, por si el service devuelve Optional vacío
     }
-    
+
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
         if (usuarioService.eliminarUsuario(id)) {
             return ResponseEntity.noContent().build();
+        } else {
+             // Si eliminarUsuario devuelve false porque no existe, lanzar excepción
+             throw new UsuarioNotFoundException(id);
         }
         return ResponseEntity.notFound().build();
     }

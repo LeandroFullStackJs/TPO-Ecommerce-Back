@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException; // IMPORTANTE: Para errores de propiedad
+import org.springframework.security.core.Authentication; // IMPORTANTE
+import org.springframework.security.core.context.SecurityContextHolder; // IMPORTANTE
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +16,7 @@ import com.api.e_commerce.exception.ProductoNotFoundException;
 import com.api.e_commerce.exception.CategoriaNotFoundException;
 import com.api.e_commerce.model.Producto;
 import com.api.e_commerce.model.Categoria;
+import com.api.e_commerce.model.Usuario; // IMPORTANTE
 import com.api.e_commerce.repository.ProductoRepository;
 
 import com.api.e_commerce.repository.CategoriaRepository;
@@ -33,6 +37,7 @@ public class ProductoService {
     @Autowired
     private ValidationService validationService;
 
+    // --- MÉTODOS GET (Sin cambios en lógica, ya son públicos) ---
     public List<ProductoDTO> getAllProductos() {
         return productoRepository.findAll().stream()
                 .map(this::convertirADTO)
@@ -70,6 +75,7 @@ public class ProductoService {
                 .map(this::convertirADTO);
     }
 
+    // --- MÉTODO PARA CREAR PRODUCTO (FUERZA PROPIEDAD) ---
     public ProductoDTO crearProducto(ProductoCreateDTO productoCreateDTO) {
         // Validaciones de negocio
         validationService.validarTextoNoVacio(productoCreateDTO.getNombre(), "nombre");
@@ -80,18 +86,24 @@ public class ProductoService {
             validationService.validarAnio(productoCreateDTO.getAnio());
         }
 
-        //Validacion URL
+        // Validación URL (para los 4 campos de imagen)
         validationService.validarUrl(productoCreateDTO.getImagen(), "imagen");
         validationService.validarUrl(productoCreateDTO.getImagenAdicional1(), "imagenAdicional1");
         validationService.validarUrl(productoCreateDTO.getImagenAdicional2(), "imagenAdicional2");
         validationService.validarUrl(productoCreateDTO.getImagenAdicional3(), "imagenAdicional3");
-
+        
         
         Producto producto = convertirAEntidad(productoCreateDTO);
         producto.setFechaCreacion(LocalDateTime.now());
         producto.setFechaActualizacion(LocalDateTime.now());
+
+        // --- ¡FORZAR PROPIEDAD! El creador es el usuario autenticado ---
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuarioActual = (Usuario) authentication.getPrincipal();
+        producto.setUsuarioId(usuarioActual.getId());
+        // --- FIN FORZAR PROPIEDAD ---
         
-        // Asociar categorías si se proporcionaron
+        // Asociar categorías
         if (productoCreateDTO.getCategoriaIds() != null && !productoCreateDTO.getCategoriaIds().isEmpty()) {
             List<Categoria> categorias = categoriaRepository.findAllById(productoCreateDTO.getCategoriaIds());
             
@@ -107,17 +119,27 @@ public class ProductoService {
         return convertirADTO(productoGuardado);
     }
 
+    // --- MÉTODO PARA ELIMINAR PRODUCTO (VERIFICA PROPIEDAD) ---
     public void deleteProducto(Long id) {
         validationService.validarId(id, "producto");
         
-        if (!productoRepository.existsById(id)) {
-            throw new ProductoNotFoundException(id);
+        Producto producto = productoRepository.findById(id)
+            .orElseThrow(() -> new ProductoNotFoundException(id));
+
+        // --- ¡VERIFICAR PROPIEDAD! Solo el dueño o Admin puede borrar ---
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuarioActual = (Usuario) authentication.getPrincipal();
+        
+        if (!usuarioActual.getRole().equals("ADMIN") && !producto.getUsuarioId().equals(usuarioActual.getId())) {
+            throw new AccessDeniedException("No tienes permiso para eliminar este producto.");
         }
+        // --- FIN VERIFICACIÓN DE PROPIEDAD ---
         
         productoRepository.deleteById(id);
     }    
 
 
+    // --- MÉTODO PARA ACTUALIZAR PRODUCTO (VERIFICA PROPIEDAD) ---
     public ProductoDTO updateProducto(Long id, ProductoUpdateDTO productoDTO) {
         validationService.validarId(id, "producto");
         
@@ -132,25 +154,28 @@ public class ProductoService {
             validationService.validarAnio(productoDTO.getAnio());
         }
         
-        if (productoDTO.getImagen() != null) {
-            validationService.validarUrl(productoDTO.getImagen(), "imagen");
-        }
-        if (productoDTO.getImagenAdicional1() != null) {
-            validationService.validarUrl(productoDTO.getImagenAdicional1(), "imagenAdicional1");
-        }
-        if (productoDTO.getImagenAdicional2() != null) {
-            validationService.validarUrl(productoDTO.getImagenAdicional2(), "imagenAdicional2");
-        }
-        if (productoDTO.getImagenAdicional3() != null) {
-            validationService.validarUrl(productoDTO.getImagenAdicional3(), "imagenAdicional3");
-        }
+        // Validación URL (para los 4 campos de imagen)
+        if (productoDTO.getImagen() != null) { validationService.validarUrl(productoDTO.getImagen(), "imagen"); }
+        if (productoDTO.getImagenAdicional1() != null) { validationService.validarUrl(productoDTO.getImagenAdicional1(), "imagenAdicional1"); }
+        if (productoDTO.getImagenAdicional2() != null) { validationService.validarUrl(productoDTO.getImagenAdicional2(), "imagenAdicional2"); }
+        if (productoDTO.getImagenAdicional3() != null) { validationService.validarUrl(productoDTO.getImagenAdicional3(), "imagenAdicional3"); }
+
 
         return productoRepository.findById(id)
             .map(producto -> {
+                // --- ¡VERIFICAR PROPIEDAD! Solo el dueño o Admin puede actualizar ---
+                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                Usuario usuarioActual = (Usuario) authentication.getPrincipal();
+
+                if (!usuarioActual.getRole().equals("ADMIN") && !producto.getUsuarioId().equals(usuarioActual.getId())) {
+                    throw new AccessDeniedException("No tienes permiso para modificar este producto.");
+                }
+                // --- FIN VERIFICACIÓN DE PROPIEDAD ---
+
                 actualizarCamposProducto(producto, productoDTO);
                 producto.setFechaActualizacion(LocalDateTime.now());
                 
-                // Actualizar categorías si se proporcionaron
+                // Actualizar categorías
                 if (productoDTO.getCategoriaIds() != null) {
                     List<Categoria> categorias = categoriaRepository.findAllById(productoDTO.getCategoriaIds());
                     
@@ -168,6 +193,7 @@ public class ProductoService {
             .orElseThrow(() -> new ProductoNotFoundException(id));
     }
     
+    // --- MÉTODOS AUXILIARES (DEJADOS COMO ESTÁN EN TUS ARCHIVOS) ---
     private void actualizarCamposProducto(Producto producto, ProductoUpdateDTO dto) {
         if (dto.getNombre() != null) producto.setNombre(dto.getNombre());
         if (dto.getDescripcion() != null) producto.setDescripcion(dto.getDescripcion());

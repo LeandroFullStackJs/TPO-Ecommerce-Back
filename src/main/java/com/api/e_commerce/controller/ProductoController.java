@@ -13,6 +13,7 @@ import jakarta.validation.Valid;
 import com.api.e_commerce.dto.ProductoDTO;
 import com.api.e_commerce.dto.ProductoCreateDTO;
 import com.api.e_commerce.dto.ProductoUpdateDTO;
+import com.api.e_commerce.exception.ProductoNotFoundException; // Importar excepción
 import com.api.e_commerce.service.ProductoService;
 
 @RestController
@@ -20,11 +21,11 @@ import com.api.e_commerce.service.ProductoService;
 @CrossOrigin(origins = "*")
 
 public class ProductoController {
-    
+
     @Autowired
     private ProductoService productoService;
 
-    // Obtener todos los productos
+    // Obtener todos los productos (público)
     @GetMapping
     public ResponseEntity<List<ProductoDTO>> getAllProductos(
             @RequestParam(required = false) Boolean activo,
@@ -41,66 +42,62 @@ public class ProductoController {
         
         return ResponseEntity.ok(productos);
     }
-    
-    // Obtener productos por categoría
+
+    // Obtener productos por categoría (público)
     @GetMapping("/categoria/{categoriaId}")
     public ResponseEntity<List<ProductoDTO>> getProductosPorCategoria(@PathVariable Long categoriaId) {
         List<ProductoDTO> productos = productoService.getProductosPorCategoria(categoriaId);
         return ResponseEntity.ok(productos);
     }
-    
-    // Buscar productos
+
+    // Buscar productos (público)
     @GetMapping("/buscar")
     public ResponseEntity<List<ProductoDTO>> buscarProductos(@RequestParam String q) {
         List<ProductoDTO> productos = productoService.buscarProductos(q);
         return ResponseEntity.ok(productos);
     }
-    
-    // Obtener productos destacados
+
+    // Obtener productos destacados (público)
     @GetMapping("/destacados")
     public ResponseEntity<List<ProductoDTO>> getProductosDestacados() {
         List<ProductoDTO> productos = productoService.getProductosDestacados();
         return ResponseEntity.ok(productos);
     }
 
-    // Obtener producto por ID
+    // Obtener producto por ID (público)
     @GetMapping("/{id}")
     public ResponseEntity<ProductoDTO> getProductoById(@PathVariable Long id) {
+        // Dejamos que el service lance ProductoNotFoundException si no existe
         Optional<ProductoDTO> producto = productoService.getProductoById(id);
         return producto.map(ResponseEntity::ok)
-                      .orElseThrow(() -> new com.api.e_commerce.exception.ProductoNotFoundException(id));
-    }    // Crear nuevo producto (requiere autenticación)
-    @PostMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    public ResponseEntity<ProductoDTO> crearProducto(@Valid @RequestBody ProductoCreateDTO productoCreateDTO) {
-        try {
-            ProductoDTO producto = productoService.crearProducto(productoCreateDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(producto);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-    
-    // Actualizar producto (requiere autenticación)
-    @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
-    public ResponseEntity<ProductoDTO> updateProducto(@PathVariable Long id, 
-                                                    @Valid @RequestBody ProductoUpdateDTO productoDTO) {
-        ProductoDTO productoActualizado = productoService.updateProducto(id, productoDTO);
-        return productoActualizado != null ? 
-                ResponseEntity.ok(productoActualizado) : 
-                ResponseEntity.notFound().build();
+                      .orElseThrow(() -> new ProductoNotFoundException(id)); // Lanzar excepción para 404
     }
 
-    // Eliminar producto (requiere autenticación de admin)
+    // Crear nuevo producto (Auth - Servicio fuerza propiedad)
+    @PostMapping
+    @PreAuthorize("isAuthenticated()") // Cambiado a isAuthenticated() ya que el servicio fuerza el userId
+    public ResponseEntity<ProductoDTO> crearProducto(@Valid @RequestBody ProductoCreateDTO productoCreateDTO) {
+        // Se quita el try-catch. Dejamos que el Service lance excepciones (ej: CategoriaNotFound)
+        ProductoDTO producto = productoService.crearProducto(productoCreateDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(producto);
+    }
+
+    // Actualizar producto (Auth - Servicio verifica propiedad)
+    @PutMapping("/{id}")
+    @PreAuthorize("isAuthenticated()") // Cambiado a isAuthenticated() ya que el servicio verifica propiedad
+    public ResponseEntity<ProductoDTO> updateProducto(@PathVariable Long id,
+                                                    @Valid @RequestBody ProductoUpdateDTO productoDTO) {
+        // Se quita el try-catch. Dejamos que el Service lance excepciones (NotFound, AccessDenied, CategoriaNotFound)
+        ProductoDTO productoActualizado = productoService.updateProducto(id, productoDTO);
+        return ResponseEntity.ok(productoActualizado);
+    }
+
+    // Eliminar producto (Auth - Servicio verifica propiedad)
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("isAuthenticated()") // Cambiado a isAuthenticated() ya que el servicio verifica propiedad
     public ResponseEntity<Void> deleteProducto(@PathVariable Long id) {
-        try {
-            productoService.deleteProducto(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        // Se quita el try-catch. Dejamos que el Service lance excepciones (NotFound, AccessDenied)
+        productoService.deleteProducto(id);
+        return ResponseEntity.noContent().build();
     }
 }

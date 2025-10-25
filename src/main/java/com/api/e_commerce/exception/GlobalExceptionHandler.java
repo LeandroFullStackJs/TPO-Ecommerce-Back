@@ -1,6 +1,9 @@
 package com.api.e_commerce.exception;
 
 import com.api.e_commerce.dto.ErrorResponse;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -212,20 +215,44 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
+    // --- MANEJADOR PARA ACCESO DENEGADO (403) ---
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> manejarAccesoDenegado(
             AccessDeniedException ex, WebRequest request) {
         logger.warn("Acceso denegado: {}", ex.getMessage());
         
         ErrorResponse errorResponse = new ErrorResponse(
-            HttpStatus.FORBIDDEN.value(),
+            HttpStatus.FORBIDDEN.value(), // 403 Forbidden
             "Acceso Denegado",
-            "No tienes permisos para acceder a este recurso",
+            "No tienes permiso para realizar esta acción.",
             request.getDescription(false).replace("uri=", "")
         );
         
         return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
+
+    // --- MANEJADOR PARA ERRORES DE JWT (401) ---
+    @ExceptionHandler({ ExpiredJwtException.class, SignatureException.class, MalformedJwtException.class })
+    public ResponseEntity<ErrorResponse> manejarErroresJwt(Exception ex, WebRequest request) {
+        logger.warn("Error de token JWT: {}", ex.getMessage());
+        String mensaje = "El token de sesión no es válido.";
+        if (ex instanceof ExpiredJwtException) {
+            mensaje = "Tu sesión ha expirado. Por favor, inicia sesión de nuevo.";
+        } else if (ex instanceof SignatureException) {
+            mensaje = "El token de sesión tiene una firma inválida.";
+        } else if (ex instanceof MalformedJwtException) {
+            mensaje = "El token de sesión está mal formado.";
+        }
+        
+        ErrorResponse errorResponse = new ErrorResponse(
+            HttpStatus.UNAUTHORIZED.value(), // 401 Unauthorized
+            "Token Inválido",
+            mensaje,
+            request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
 
     // ==================== EXCEPCIONES DE VALIDACIÓN ====================
 
@@ -233,6 +260,7 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> manejarValidacionArgumentos(
             MethodArgumentNotValidException ex, WebRequest request) {
         logger.warn("Error de validación: {}", ex.getMessage());
+
         List<String> details = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             details.add(error.getField() + ": " + error.getDefaultMessage());
@@ -245,7 +273,7 @@ public class GlobalExceptionHandler {
             request.getDescription(false).replace("uri=", ""),
             details
         );
-        
+
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -324,7 +352,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
-    // ==================== EXCEPCIÓN GENERAL ====================
+    // ==================== EXCEPCIÓN GENERAL (Fallback) ====================
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> manejarErroresGenerales(
