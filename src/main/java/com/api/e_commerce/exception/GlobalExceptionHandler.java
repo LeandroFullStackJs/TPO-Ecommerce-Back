@@ -233,7 +233,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> manejarValidacionArgumentos(
             MethodArgumentNotValidException ex, WebRequest request) {
         logger.warn("Error de validación: {}", ex.getMessage());
-        
         List<String> details = new ArrayList<>();
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             details.add(error.getField() + ": " + error.getDefaultMessage());
