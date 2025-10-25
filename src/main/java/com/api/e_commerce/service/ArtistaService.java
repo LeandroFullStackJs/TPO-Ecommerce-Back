@@ -34,7 +34,7 @@ public class ArtistaService {
     }
 
     public ArtistaDTO crearArtista(ArtistaCreateDTO artistaCreateDTO) {
-        validatioService.validarTextoNoVacio(artistaCreateDTO.getNombre(), "nombre");
+        validationService.validarTextoNoVacio(artistaCreateDTO.getNombre(), "nombre");
 
         if (artistaCreateDTO.getEmail() != null && !artistaCreateDTO.getEmail().isEmpty()) {
             validationService.validarEmail(artistaCreateDTO.getEmail());
@@ -43,10 +43,9 @@ public class ArtistaService {
             }
         } else {
             validationService.validarTextoNoVacio(artistaCreateDTO.getEmail(), "email");
-            }
         }
 
-        validationService.validarURL(artistaCreateDTO.getImagenPerfil(), "imagenPerfil");
+        validationService.validarUrl(artistaCreateDTO.getImagenPerfil(), "imagenPerfil");
 
         Artista artista = convertirAEntidad(artistaCreateDTO);
         artista.setFechaCreacion(LocalDateTime.now());
@@ -70,7 +69,7 @@ public class ArtistaService {
             }
             
             if (artistaUpdateDTO.getImagenPerfil() != null) {
-                validationService.validarURL(artistaUpdateDTO.getImagenPerfil(), "imagenPerfil");
+                validationService.validarUrl(artistaUpdateDTO.getImagenPerfil(), "imagenPerfil");
             }
 
             actualizarCampos(artista, artistaUpdateDTO);

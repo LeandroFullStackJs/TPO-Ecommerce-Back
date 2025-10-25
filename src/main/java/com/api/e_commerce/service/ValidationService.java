@@ -17,6 +17,9 @@ public class ValidationService {
     
     private static final Pattern PHONE_PATTERN = 
         Pattern.compile("^[+]?[0-9]{10,15}$");
+        
+    private static final Pattern URL_PATTERN = 
+        Pattern.compile("^(https?:\\/\\/)?([\\w\\-])+\\.{1}([a-zA-Z]{2,63})([\\/\\w-]*)*\\/?\\??([^#\\n\\r]*)?#?([^\\n\\r]*)$");
 
     // Patrones para complejidad de contraseña
     private static final Pattern UPPERCASE_PATTERN = Pattern.compile(".*[A-Z].*");
@@ -164,4 +167,6 @@ public class ValidationService {
             if (!URL_PATTERN.matcher(url).matches()) {
                 throw new InvalidDataException(campo, url, "El formato de la URL no es válido para el campo " + campo);
             }
+        }
+}
 }

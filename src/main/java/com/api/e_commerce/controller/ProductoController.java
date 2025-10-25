@@ -18,6 +18,7 @@ import com.api.e_commerce.service.ProductoService;
 @RestController
 @RequestMapping("/api/productos")
 @CrossOrigin(origins = "*")
+
 public class ProductoController {
     
     @Autowired

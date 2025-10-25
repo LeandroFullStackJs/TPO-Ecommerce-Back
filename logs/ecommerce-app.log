@@ -1,24 +1,66 @@
-2025-10-23 02:28:01 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5h50m27s238ms608탎300ns).
-2025-10-23 04:06:05 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h38m4s164ms739탎500ns).
-2025-10-23 08:05:40 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3h57m34s607ms882탎700ns).
-2025-10-23 09:36:38 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h26m27s119ms591탎100ns).
-2025-10-23 13:43:36 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4h6m58s715ms115탎500ns).
-2025-10-23 16:23:36 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h30m1s306ms725탎800ns).
-2025-10-23 16:50:13 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=21m36s228ms211탎400ns).
-2025-10-23 19:03:05 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h12m52s390ms416탎400ns).
-2025-10-23 21:27:23 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h19m17s412ms505탎600ns).
-2025-10-23 21:29:18 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@228dfd95 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:19 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@680208ad (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:19 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@675af313 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:21 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@2af6cb38 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:21 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@476933a8 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:27 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@131707cd (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:27 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@12d0ef1d (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:28 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@384eabbf (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:29 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@13ccea14 (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:29:29 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@6243243b (No operations allowed after connection closed.). Possibly consider using a shorter maxLifetime value.
-2025-10-23 21:30:22 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (35e35c8e-853f-4650-89af-d23c3c9167a1)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+2025-10-25 13:45:32 [main] INFO  c.a.e_commerce.ECommerceApplication - Starting ECommerceApplication using Java 17.0.16 with PID 25296 (C:\Users\delfi\TPO-Ecommerce-Back\target\classes started by delfi in C:\Users\delfi\TPO-Ecommerce-Back)
+2025-10-25 13:45:32 [main] INFO  c.a.e_commerce.ECommerceApplication - No active profile set, falling back to 1 default profile: "default"
+2025-10-25 13:45:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-10-25 13:45:35 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 147 ms. Found 6 JPA repository interfaces.
+2025-10-25 13:45:36 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-10-25 13:45:36 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-10-25 13:45:36 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.46]
+2025-10-25 13:45:36 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-10-25 13:45:36 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3438 ms
+2025-10-25 13:45:37 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-10-25 13:45:37 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.29.Final
+2025-10-25 13:45:37 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-10-25 13:45:38 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-10-25 13:45:38 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-10-25 13:45:39 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Error: 0, SQLState: 08S01
+2025-10-25 13:45:39 [main] ERROR o.h.e.jdbc.spi.SqlExceptionHelper - Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+2025-10-25 13:45:39 [main] WARN  o.h.e.j.e.i.JdbcEnvironmentInitiator - HHH000342: Could not obtain connection to query metadata
+org.hibernate.exception.JDBCConnectionException: unable to obtain isolated JDBC connection [Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.] [n/a]
+	at org.hibernate.exception.internal.SQLStateConversionDelegate.convert(SQLStateConversionDelegate.java:100)
+	at org.hibernate.exception.internal.StandardSQLExceptionConverter.convert(StandardSQLExceptionConverter.java:58)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:108)
+	at org.hibernate.engine.jdbc.spi.SqlExceptionHelper.convert(SqlExceptionHelper.java:94)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:116)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:334)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215)
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.api.e_commerce.ECommerceApplication.main(ECommerceApplication.java:13)
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
 
 The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
 	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
@@ -31,16 +73,18 @@ The last packet sent successfully to the server was 0 milliseconds ago. The driv
 	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
 	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
 	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:576)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:97)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:111)
+	at org.hibernate.engine.jdbc.connections.internal.DatasourceConnectionProviderImpl.getConnection(DatasourceConnectionProviderImpl.java:126)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess.obtainConnection(JdbcEnvironmentInitiator.java:485)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcIsolationDelegate.delegateWork(JdbcIsolationDelegate.java:61)
+	... 35 common frames omitted
 Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
 
 The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
 	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
 	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
@@ -52,7 +96,7 @@ The last packet sent successfully to the server was 0 milliseconds ago. The driv
 	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
 	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
 	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
+	... 48 common frames omitted
 Caused by: java.net.ConnectException: Connection refused: getsockopt
 	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
 	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
@@ -62,695 +106,56 @@ Caused by: java.net.ConnectException: Connection refused: getsockopt
 	at java.base/java.net.Socket.connect(Socket.java:633)
 	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
 	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:31:28 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (392dec55-1f0c-47ae-81eb-c125286d8f62)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+	... 51 common frames omitted
+2025-10-25 13:45:39 [main] ERROR o.s.o.j.LocalContainerEntityManagerFactoryBean - Failed to initialize JPA EntityManagerFactory: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+2025-10-25 13:45:39 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+2025-10-25 13:45:39 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-10-25 13:45:39 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
 
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:32:33 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (5147123c-3b6d-4a44-9713-f1d79b085802)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:33:39 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (07e091e4-c3e8-4723-8d26-c85868f3ebeb)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:34:44 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (9a032df1-d463-46db-aa96-ef1462c54c99)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:35:50 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (1249a31f-a362-4064-9f2f-2a10ce000eb6)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:36:55 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (d90abb95-1f0e-4450-9aa7-0139e70181c3)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:38:01 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (b4a92b4c-5f31-4463-b928-1fd0fe794925)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:39:06 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (79034ea1-2550-42be-807a-96861fd6b335)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:40:11 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (5a7f9367-33a4-4d57-b762-289e82cfb752)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:41:17 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (411aeb2e-56f2-4a4a-89f1-3df648115105)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:42:22 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (facb2076-ace8-4652-8acb-0799d32e5e19)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:43:28 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (5a6daffe-f240-4700-a37b-33cf8b5f2988)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 21:44:33 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (032ebc30-2f57-4ba4-838e-6ea54fe6faa1)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 22:02:57 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (9b149491-1120-4e52-be49-dd3c3fe9ca4d)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
-2025-10-23 22:03:07 [HikariPool-1:housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=18m42s393ms240탎900ns).
-2025-10-23 22:04:05 [HikariPool-1:connection-adder] WARN  com.zaxxer.hikari.pool.PoolBase - HikariPool-1 - Pool is empty, failed to create/setup connection (8102411e-1707-4d07-af3a-bed03db9201a)
-com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at com.mysql.cj.jdbc.exceptions.SQLError.createCommunicationsException(SQLError.java:165)
-	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:55)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:839)
-	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:415)
-	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:237)
-	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:180)
-	at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:144)
-	at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:370)
-	at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:207)
-	at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:488)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:752)
-	at com.zaxxer.hikari.pool.HikariPool$PoolEntryCreator.call(HikariPool.java:731)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:840)
-Caused by: com.mysql.cj.exceptions.CJCommunicationsException: Communications link failure
-
-The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
-	at jdk.internal.reflect.GeneratedConstructorAccessor47.newInstance(Unknown Source)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:52)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:95)
-	at com.mysql.cj.exceptions.ExceptionFactory.createException(ExceptionFactory.java:140)
-	at com.mysql.cj.exceptions.ExceptionFactory.createCommunicationsException(ExceptionFactory.java:156)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:79)
-	at com.mysql.cj.NativeSession.connect(NativeSession.java:142)
-	at com.mysql.cj.jdbc.ConnectionImpl.connectOneTryOnly(ConnectionImpl.java:963)
-	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:827)
-	... 13 common frames omitted
-Caused by: java.net.ConnectException: Connection refused: getsockopt
-	at java.base/sun.nio.ch.Net.pollConnect(Native Method)
-	at java.base/sun.nio.ch.Net.pollConnectNow(Net.java:672)
-	at java.base/sun.nio.ch.NioSocketImpl.timedFinishConnect(NioSocketImpl.java:547)
-	at java.base/sun.nio.ch.NioSocketImpl.connect(NioSocketImpl.java:602)
-	at java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:327)
-	at java.base/java.net.Socket.connect(Socket.java:633)
-	at com.mysql.cj.protocol.StandardSocketFactory.connect(StandardSocketFactory.java:144)
-	at com.mysql.cj.protocol.a.NativeSocketConnection.connect(NativeSocketConnection.java:53)
-	... 16 common frames omitted
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-10-25 13:45:40 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1826)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:529)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:339)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:373)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:207)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at com.api.e_commerce.ECommerceApplication.main(ECommerceApplication.java:13)
+Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment] due to: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:276)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:238)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:215)
+	at org.hibernate.boot.model.relational.Database.<init>(Database.java:45)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.getDatabase(InFlightMetadataCollectorImpl.java:226)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:194)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:171)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1442)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1513)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1873)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1822)
+	... 15 common frames omitted
+Caused by: org.hibernate.HibernateException: Unable to determine Dialect without JDBC metadata (please set 'jakarta.persistence.jdbc.url' for common cases or 'hibernate.dialect' when a custom Dialect implementation must be provided)
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.determineDialect(DialectFactoryImpl.java:191)
+	at org.hibernate.engine.jdbc.dialect.internal.DialectFactoryImpl.buildDialect(DialectFactoryImpl.java:87)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentWithDefaults(JdbcEnvironmentInitiator.java:186)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.getJdbcEnvironmentUsingJdbcMetadata(JdbcEnvironmentInitiator.java:410)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:129)
+	at org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator.initiateService(JdbcEnvironmentInitiator.java:81)
+	at org.hibernate.boot.registry.internal.StandardServiceRegistryImpl.initiateService(StandardServiceRegistryImpl.java:130)
+	at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:263)
+	... 30 common frames omitted

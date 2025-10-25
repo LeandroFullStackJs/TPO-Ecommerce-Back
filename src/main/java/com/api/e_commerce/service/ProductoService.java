@@ -14,6 +14,7 @@ import com.api.e_commerce.exception.CategoriaNotFoundException;
 import com.api.e_commerce.model.Producto;
 import com.api.e_commerce.model.Categoria;
 import com.api.e_commerce.repository.ProductoRepository;
+
 import com.api.e_commerce.repository.CategoriaRepository;
 import com.api.e_commerce.dto.ProductoDTO;
 import com.api.e_commerce.dto.ProductoCreateDTO;
@@ -80,10 +81,10 @@ public class ProductoService {
         }
 
         //Validacion URL
-        validationService.validarURL(productoCreateDTO.getImagen(), "imagen");
-        validationService.validarURL(productoCreateDTO.getImagenAdicional1(), "imagenAdicional1");
-        validationService.validarURL(productoCreateDTO.getImagenAdicional2(), "imagenAdicional2");
-        validationService.validarURL(productoCreateDTO.getImagenAdicional3(), "imagenAdicional3");
+        validationService.validarUrl(productoCreateDTO.getImagen(), "imagen");
+        validationService.validarUrl(productoCreateDTO.getImagenAdicional1(), "imagenAdicional1");
+        validationService.validarUrl(productoCreateDTO.getImagenAdicional2(), "imagenAdicional2");
+        validationService.validarUrl(productoCreateDTO.getImagenAdicional3(), "imagenAdicional3");
 
         
         Producto producto = convertirAEntidad(productoCreateDTO);
@@ -116,6 +117,7 @@ public class ProductoService {
         productoRepository.deleteById(id);
     }    
 
+
     public ProductoDTO updateProducto(Long id, ProductoUpdateDTO productoDTO) {
         validationService.validarId(id, "producto");
         
@@ -131,16 +133,16 @@ public class ProductoService {
         }
         
         if (productoDTO.getImagen() != null) {
-            validationService.validarURL(productoDTO.getImagen(), "imagen");
+            validationService.validarUrl(productoDTO.getImagen(), "imagen");
         }
         if (productoDTO.getImagenAdicional1() != null) {
-            validationService.validarURL(productoDTO.getImagenAdicional1(), "imagenAdicional1");
+            validationService.validarUrl(productoDTO.getImagenAdicional1(), "imagenAdicional1");
         }
         if (productoDTO.getImagenAdicional2() != null) {
-            validationService.validarURL(productoDTO.getImagenAdicional2(), "imagenAdicional2");
+            validationService.validarUrl(productoDTO.getImagenAdicional2(), "imagenAdicional2");
         }
         if (productoDTO.getImagenAdicional3() != null) {
-            validationService.validarURL(productoDTO.getImagenAdicional3(), "imagenAdicional3");
+            validationService.validarUrl(productoDTO.getImagenAdicional3(), "imagenAdicional3");
         }
 
         return productoRepository.findById(id)
@@ -187,7 +189,7 @@ public class ProductoService {
         if (dto.getEstilo() != null) producto.setEstilo(dto.getEstilo());
     }
     
-    private ProductoDTO convertirADTO(Producto producto) {
+    public ProductoDTO convertirADTO(Producto producto) {
         ProductoDTO dto = new ProductoDTO();
         dto.setId(producto.getId());
         dto.setNombre(producto.getNombre());
