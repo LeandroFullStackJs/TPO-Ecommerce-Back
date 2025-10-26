@@ -11,14 +11,11 @@ import java.util.List;
 @AllArgsConstructor
 public class ProductoDTO {
     private Long id;
-    private String nombre;
+    private String nombreObra;
     private String descripcion;
     private Double precio;
     private Integer stock;
     private String imagen;
-    private String imagenAdicional1;
-    private String imagenAdicional2;
-    private String imagenAdicional3;
     private Boolean activo;
     private Boolean destacado;
     private LocalDateTime fechaCreacion;

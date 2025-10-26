@@ -195,14 +195,11 @@ public class ProductoService {
     
     // --- MÉTODOS AUXILIARES (DEJADOS COMO ESTÁN EN TUS ARCHIVOS) ---
     private void actualizarCamposProducto(Producto producto, ProductoUpdateDTO dto) {
-        if (dto.getNombre() != null) producto.setNombre(dto.getNombre());
+        if (dto.getNombre() != null) producto.setNombreObra(dto.getNombre());
         if (dto.getDescripcion() != null) producto.setDescripcion(dto.getDescripcion());
         if (dto.getPrecio() != null) producto.setPrecio(dto.getPrecio());
         if (dto.getStock() != null) producto.setStock(dto.getStock());
         if (dto.getImagen() != null) producto.setImagen(dto.getImagen());
-        if (dto.getImagenAdicional1() != null) producto.setImagenAdicional1(dto.getImagenAdicional1());
-        if (dto.getImagenAdicional2() != null) producto.setImagenAdicional2(dto.getImagenAdicional2());
-        if (dto.getImagenAdicional3() != null) producto.setImagenAdicional3(dto.getImagenAdicional3());
         if (dto.getActivo() != null) producto.setActivo(dto.getActivo());
         if (dto.getDestacado() != null) producto.setDestacado(dto.getDestacado());
         // Campos específicos para obras de arte (exactos del frontend)
@@ -218,14 +215,11 @@ public class ProductoService {
     public ProductoDTO convertirADTO(Producto producto) {
         ProductoDTO dto = new ProductoDTO();
         dto.setId(producto.getId());
-        dto.setNombre(producto.getNombre());
+        dto.setNombreObra(producto.getNombreObra());
         dto.setDescripcion(producto.getDescripcion());
         dto.setPrecio(producto.getPrecio());
         dto.setStock(producto.getStock());
         dto.setImagen(producto.getImagen());
-        dto.setImagenAdicional1(producto.getImagenAdicional1());
-        dto.setImagenAdicional2(producto.getImagenAdicional2());
-        dto.setImagenAdicional3(producto.getImagenAdicional3());
         dto.setActivo(producto.getActivo());
         dto.setDestacado(producto.getDestacado());
         dto.setFechaCreacion(producto.getFechaCreacion());
@@ -251,14 +245,11 @@ public class ProductoService {
     
     private Producto convertirAEntidad(ProductoCreateDTO dto) {
         Producto producto = new Producto();
-        producto.setNombre(dto.getNombre());
+        producto.setNombreObra(dto.getNombre());
         producto.setDescripcion(dto.getDescripcion());
         producto.setPrecio(dto.getPrecio());
         producto.setStock(dto.getStock());
         producto.setImagen(dto.getImagen());
-        producto.setImagenAdicional1(dto.getImagenAdicional1());
-        producto.setImagenAdicional2(dto.getImagenAdicional2());
-        producto.setImagenAdicional3(dto.getImagenAdicional3());
         producto.setActivo(dto.getActivo() != null ? dto.getActivo() : true);
         producto.setDestacado(dto.getDestacado() != null ? dto.getDestacado() : false);
         // Campos específicos para obras de arte (exactos del frontend)

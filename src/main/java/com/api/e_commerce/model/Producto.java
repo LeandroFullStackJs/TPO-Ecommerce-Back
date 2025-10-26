@@ -23,10 +23,11 @@ public class Producto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotBlank(message = "El nombre es obligatorio")
+    @NotBlank(message = "El nombre de la obra es obligatorio")
     @Column(nullable = false)
-    private String nombre;
-    
+    private String nombreObra;
+
+
     @Column(length = 1000)
     private String descripcion;
     
@@ -41,17 +42,9 @@ public class Producto {
     private Integer stock;
     
     // Campos adicionales para el frontend
+
     private String imagen; // URL de la imagen principal
-    
-    @Column(name = "imagen_adicional1")
-    private String imagenAdicional1;
-    
-    @Column(name = "imagen_adicional2")
-    private String imagenAdicional2;
-    
-    @Column(name = "imagen_adicional3")
-    private String imagenAdicional3;
-    
+      
     private Boolean activo = true;
     
     private Boolean destacado = false;
