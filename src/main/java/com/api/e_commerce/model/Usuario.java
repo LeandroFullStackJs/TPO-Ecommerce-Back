@@ -26,9 +26,7 @@ public class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @NotBlank(message = "El nombre de usuario es obligatorio")
-    @Column(nullable = false)
-    private String username;
+    
     
     @Email(message = "Email debe tener un formato válido")
     @NotBlank(message = "El email es obligatorio")
