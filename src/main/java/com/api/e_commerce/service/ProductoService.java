@@ -63,7 +63,7 @@ public class ProductoService {
     }
     
     public List<ProductoDTO> buscarProductos(String termino) {
-        return productoRepository.findByNombreContainingIgnoreCaseOrDescripcionContainingIgnoreCase(termino, termino)
+        return productoRepository.findByNombreObraContainingIgnoreCaseOrDescripcionContainingIgnoreCase(termino, termino)
                 .stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());

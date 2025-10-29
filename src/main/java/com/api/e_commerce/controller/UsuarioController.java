@@ -17,7 +17,7 @@ import com.api.e_commerce.service.UsuarioService;
 
 @RestController
 @RequestMapping("/api/usuarios")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:5173"})
 public class UsuarioController {
 
     @Autowired

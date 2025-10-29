@@ -19,7 +19,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     // void deleteById(Long id);
 
     // Consultas personalizadas para el frontend
-    List<Producto> findByNombreContaining(String nombre);
+    List<Producto> findByNombreObraContaining(String nombreObra);
     
     // Buscar productos activos
     List<Producto> findByActivoTrue();
@@ -32,7 +32,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     List<Producto> findByCategorias_Id(@Param("categoriaId") Long categoriaId);
     
     // Búsqueda por nombre o descripción
-    List<Producto> findByNombreContainingIgnoreCaseOrDescripcionContainingIgnoreCase(String nombre, String descripcion);
+    List<Producto> findByNombreObraContainingIgnoreCaseOrDescripcionContainingIgnoreCase(String nombreObra, String descripcion);
     
     // Buscar por rango de precio
     List<Producto> findByPrecioBetween(Double minPrecio, Double maxPrecio);
@@ -57,13 +57,13 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
     
     // Buscar productos por múltiples criterios
     @Query("SELECT p FROM Producto p WHERE " +
-           "(:nombre IS NULL OR LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))) AND " +
+           "(:nombreObra IS NULL OR LOWER(p.nombreObra) LIKE LOWER(CONCAT('%', :nombreObra, '%'))) AND " +
            "(:minPrecio IS NULL OR p.precio >= :minPrecio) AND " +
            "(:maxPrecio IS NULL OR p.precio <= :maxPrecio) AND " +
            "(:artista IS NULL OR LOWER(p.artista) LIKE LOWER(CONCAT('%', :artista, '%'))) AND " +
            "(:tecnica IS NULL OR LOWER(p.tecnica) LIKE LOWER(CONCAT('%', :tecnica, '%'))) AND " +
            "(:activo IS NULL OR p.activo = :activo)")
-    List<Producto> findProductosConFiltros(@Param("nombre") String nombre,
+    List<Producto> findProductosConFiltros(@Param("nombreObra") String nombreObra,
                                          @Param("minPrecio") Double minPrecio,
                                          @Param("maxPrecio") Double maxPrecio,
                                          @Param("artista") String artista,

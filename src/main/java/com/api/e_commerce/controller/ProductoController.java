@@ -18,7 +18,7 @@ import com.api.e_commerce.service.ProductoService;
 
 @RestController
 @RequestMapping("/api/productos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:5173"})
 
 public class ProductoController {
 
