@@ -54,7 +54,7 @@ INSERT INTO productos (
 ) VALUES
 ('Sueño de Paisaje', 'Paisaje onírico que captura la esencia de la naturaleza.', 
  40000.00, 1, 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop',
- true, true, NOW(), NOW(), 'Carlos Mendoza', 2, 1, 'Óleo', '70x50 cm', 2023, null),
+ true, true, NOW(), NOW(), 'Carlos Mendoza', 2, 1, 'Óleo', '70x50 cm', 2023, 'Moderno'),
 
 ('Sinfonía Geométrica', 'Composición geométrica que explora la armonía entre líneas y ángulos.', 
  41000.00, 2, 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop',
