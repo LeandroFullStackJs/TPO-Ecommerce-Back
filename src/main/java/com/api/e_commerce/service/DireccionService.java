@@ -64,7 +64,7 @@ public class DireccionService {
     }
     
     private Direccion convertirAEntidad(DireccionDTO dto) {
-        Direccion direccion = new Direccion();
+        Direccion direccion = new Direccion(null, null, null, null, null, null);
         direccion.setCalle(dto.getCalle());
         direccion.setNumero(dto.getNumero());
         direccion.setLocalidad(dto.getLocalidad());
