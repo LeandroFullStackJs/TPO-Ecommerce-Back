@@ -22,14 +22,18 @@ public class Artista {
     @Column(nullable = false)
     private String nombre; // name en frontend
     
-    @Column(length = 2000)
+    @NotBlank(message = "La biografía es obligatoria")
+    @Column(nullable = false, length = 2000)
     private String biografia; // biography en frontend
-    
+
     private String imagenPerfil; // profileImage en frontend
     
+    @NotBlank(message = "El email es obligatorio")
     @Email(message = "Email debe ser válido")
+    @Column(nullable = false)
     private String email; // email de contacto
     
+    @Column(nullable = false)
     private Boolean activo = true;
     
     @Column(name = "fecha_creacion")

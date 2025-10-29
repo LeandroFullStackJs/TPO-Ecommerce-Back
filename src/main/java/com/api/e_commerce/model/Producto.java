@@ -27,8 +27,7 @@ public class Producto {
     @Column(nullable = false)
     private String nombreObra;
 
-
-    @Column(length = 1000)
+    @Column(nullable = false, length = 1000)
     private String descripcion;
     
     @NotNull(message = "El precio es obligatorio")
@@ -42,7 +41,7 @@ public class Producto {
     private Integer stock;
     
     // Campos adicionales para el frontend
-
+    @Column(nullable = false)
     private String imagen; // URL de la imagen principal
       
     private Boolean activo = true;
@@ -56,6 +55,7 @@ public class Producto {
     private LocalDateTime fechaActualizacion = LocalDateTime.now();
     
     // Campos específicos para obras de arte (exactos del frontend)
+
     private String artista; // Nombre del artista
     
     @Column(name = "artista_id")
@@ -64,9 +64,14 @@ public class Producto {
     @Column(name = "usuario_id") 
     private Long usuarioId; // ID del usuario que creó el producto
     
+    @Column(nullable = false)
     private String tecnica; // technique - Óleo, acuarela, acrílico, etc.
+    
+    @Column(nullable = false)
     private String dimensiones; // dimensions - "80x60 cm"
+    @Column(nullable = false)
     private Integer anio; // year - Año de creación
+    @Column(nullable = false)
     private String estilo; // style - Estilo artístico (opcional)
     
     @JsonIgnore
