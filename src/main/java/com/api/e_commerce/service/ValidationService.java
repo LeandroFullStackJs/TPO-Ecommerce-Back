@@ -20,6 +20,9 @@ public class ValidationService {
         
     private static final Pattern URL_PATTERN = 
         Pattern.compile("^(https?:\\/\\/)?([\\w\\-])+\\.{1}([a-zA-Z]{2,63})([\\/\\w-]*)*\\/?\\??([^#\\n\\r]*)?#?([^\\n\\r]*)$");
+    
+    private static final Pattern PROXY_URL_PATTERN = 
+        Pattern.compile("^/api/proxy/image\\?url=.*");
 
     // Patrones para complejidad de contraseña
     private static final Pattern UPPERCASE_PATTERN = Pattern.compile(".*[A-Z].*");
@@ -164,7 +167,8 @@ public class ValidationService {
 
     public void validarUrl(String url, String campo) {
         if (url != null && !url.trim().isEmpty()) {
-            if (!URL_PATTERN.matcher(url).matches()) {
+            // Permitir URLs de proxy locales o URLs web estándar
+            if (!URL_PATTERN.matcher(url).matches() && !PROXY_URL_PATTERN.matcher(url).matches()) {
                 throw new InvalidDataException(campo, url, "El formato de la URL no es válido para el campo " + campo);
             }
         }

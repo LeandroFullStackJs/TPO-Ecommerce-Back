@@ -56,13 +56,17 @@ public class Producto {
     
     // Campos específicos para obras de arte (exactos del frontend)
 
-    private String artista; // Nombre del artista
+    private String artista; // Nombre del artista (para búsquedas rápidas)
     
-    @Column(name = "artista_id")
-    private Long artistaId; // ID del artista
+    // Relación con la entidad Artista
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artista_id", foreignKey = @ForeignKey(name = "FK_producto_artista"))
+    private Artista artistaEntity;
     
-    @Column(name = "usuario_id") 
-    private Long usuarioId; // ID del usuario que creó el producto
+    // Relación con Usuario que creó el producto
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "FK_producto_usuario"))
+    private Usuario usuarioCreador;
     
     @Column(nullable = false)
     private String tecnica; // technique - Óleo, acuarela, acrílico, etc.
@@ -74,14 +78,19 @@ public class Producto {
     @Column(nullable = false)
     private String estilo; // style - Estilo artístico (opcional)
     
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY)
+    // Relación Many-to-Many con Categorías con configuración optimizada
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
         name = "productos_categorias",
-        joinColumns = @JoinColumn(name = "producto_id"),
-        inverseJoinColumns = @JoinColumn(name = "categoria_id")
+        joinColumns = @JoinColumn(name = "producto_id", foreignKey = @ForeignKey(name = "FK_productos_categorias_producto")),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id", foreignKey = @ForeignKey(name = "FK_productos_categorias_categoria"))
     )
     private List<Categoria> categorias = new ArrayList<>();
+    
+    // Relación con elementos de pedidos
+    @JsonIgnore
+    @OneToMany(mappedBy = "producto", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PedidoItem> pedidoItems = new ArrayList<>();
     
     @PreUpdate
     public void preUpdate() {

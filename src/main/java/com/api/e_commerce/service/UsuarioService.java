@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.*;
 
@@ -23,10 +24,20 @@ public class UsuarioService {
     @Autowired
     private ValidationService validationService; // IMPORTANTE: Inyectar ValidationService
 
+    @Autowired
+    private PasswordEncoder passwordEncoder; // Inyectar PasswordEncoder
+
     //getAllUsuarios 
     public List<UsuarioDTO> getAllUsuarios() {
         return usuarioRepository.findAll().stream()
                 .map(this::convertirADTO)
+                .collect(Collectors.toList());
+    }
+
+    // Método para debug - obtener todos los emails
+    public List<String> getAllEmails() {
+        return usuarioRepository.findAll().stream()
+                .map(Usuario::getEmail)
                 .collect(Collectors.toList());
     }
 
@@ -52,13 +63,24 @@ public class UsuarioService {
     public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
         validationService.validarId(id, "usuario"); // Validar ID
         
+        // Validar que los campos requeridos no estén vacíos
+        if (usuarioDTO.getNombre() == null || usuarioDTO.getNombre().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre es obligatorio");
+        }
+        if (usuarioDTO.getApellido() == null || usuarioDTO.getApellido().trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido es obligatorio");
+        }
+        if (usuarioDTO.getEmail() == null || usuarioDTO.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("El email es obligatorio");
+        }
+        
         return usuarioRepository.findById(id)
                 .map(usuario -> {
                     // Aquí se puede agregar lógica de seguridad para verificar propiedad si es necesario
-                    usuario.setNombre(usuarioDTO.getNombre());
-                    usuario.setApellido(usuarioDTO.getApellido());
+                    usuario.setNombre(usuarioDTO.getNombre().trim());
+                    usuario.setApellido(usuarioDTO.getApellido().trim());
                     // Si se actualiza el email, se necesitaría más validación de unicidad
-                    usuario.setEmail(usuarioDTO.getEmail());
+                    usuario.setEmail(usuarioDTO.getEmail().trim());
                     return convertirADTO(usuarioRepository.save(usuario));
                 })
                 .orElseThrow(() -> new UsuarioNotFoundException(id)); // Lanzar excepción si no se encuentra
@@ -91,5 +113,27 @@ public class UsuarioService {
         usuario.setEmail(dto.getEmail());
         // Password se manejará por separado
         return usuario;
+    }
+
+    public void cambiarPassword(Long id, String currentPassword, String newPassword) {
+        validationService.validarId(id, "usuario");
+        
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
+        
+        // Validar contraseña actual usando el encoder
+        if (currentPassword != null && !passwordEncoder.matches(currentPassword, usuario.getPassword())) {
+            throw new IllegalArgumentException("La contraseña actual es incorrecta");
+        }
+        
+        // Validar nueva contraseña
+        if (newPassword == null || newPassword.trim().length() < 6) {
+            throw new IllegalArgumentException("La nueva contraseña debe tener al menos 6 caracteres");
+        }
+        
+        // Encriptar la nueva contraseña antes de guardarla
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        usuario.setPassword(encodedPassword);
+        usuarioRepository.save(usuario);
     }
 }

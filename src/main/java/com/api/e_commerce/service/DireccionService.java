@@ -60,16 +60,25 @@ public class DireccionService {
         dto.setLocalidad(direccion.getLocalidad());
         dto.setProvincia(direccion.getProvincia());
         dto.setPais(direccion.getPais());
+        dto.setCodigoPostal(direccion.getCodigoPostal());
+        dto.setObservaciones(direccion.getObservaciones());
+        dto.setEsPrincipal(direccion.getEsPrincipal());
+        if (direccion.getUsuario() != null) {
+            dto.setUsuarioId(direccion.getUsuario().getId());
+        }
         return dto;
     }
     
     private Direccion convertirAEntidad(DireccionDTO dto) {
-        Direccion direccion = new Direccion(null, null, null, null, null, null);
+        Direccion direccion = new Direccion();
         direccion.setCalle(dto.getCalle());
         direccion.setNumero(dto.getNumero());
         direccion.setLocalidad(dto.getLocalidad());
         direccion.setProvincia(dto.getProvincia());
         direccion.setPais(dto.getPais());
+        direccion.setCodigoPostal(dto.getCodigoPostal());
+        direccion.setObservaciones(dto.getObservaciones());
+        direccion.setEsPrincipal(dto.getEsPrincipal());
         return direccion;
     }
 }

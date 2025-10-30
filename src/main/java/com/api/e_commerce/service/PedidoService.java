@@ -1,9 +1,13 @@
 package com.api.e_commerce.service;
 
 import com.api.e_commerce.dto.PedidoDTO;
+import com.api.e_commerce.dto.PedidoItemDTO;
 import com.api.e_commerce.model.Pedido;
+import com.api.e_commerce.model.PedidoItem;
+import com.api.e_commerce.model.Producto;
 import com.api.e_commerce.model.Usuario;
 import com.api.e_commerce.repository.PedidoRepository;
+import com.api.e_commerce.repository.ProductoRepository;
 import com.api.e_commerce.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException; // IMPORTANTE
@@ -23,6 +27,9 @@ public class PedidoService {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
+    
+    @Autowired
+    private ProductoRepository productoRepository;
 
     @SuppressWarnings("unused")
     @Autowired
@@ -103,7 +110,9 @@ public class PedidoService {
         return pedidoRepository.findById(id)
                 .map(pedido -> {
                     // Aquí iría la validación del estado por el ADMIN
-                    pedido.setEstado(pedidoDTO.getEstado());
+                    if (pedidoDTO.getEstado() != null) {
+                        pedido.setEstado(Pedido.EstadoPedido.valueOf(pedidoDTO.getEstado()));
+                    }
                     if (pedidoDTO.getFecha() != null) {
                         pedido.setFecha(pedidoDTO.getFecha());
                     }
@@ -124,30 +133,107 @@ public class PedidoService {
         PedidoDTO dto = new PedidoDTO();
         dto.setId(pedido.getId());
         dto.setFecha(pedido.getFecha());
-        dto.setEstado(pedido.getEstado());
-        if (pedido.getUsuario() != null) {
-            dto.setUsuarioId(pedido.getUsuario().getId());
-            String nombreCompleto = "";
-            if (pedido.getUsuario().getNombre() != null) {
-                nombreCompleto += pedido.getUsuario().getNombre();
-            }
-            if (pedido.getUsuario().getApellido() != null) {
-                if (!nombreCompleto.isEmpty()) {
-                    nombreCompleto += " ";
-                }
-                nombreCompleto += pedido.getUsuario().getApellido();
-            }
-            dto.setUsuarioNombre(nombreCompleto);
+        
+        // Manejo seguro del estado
+        if (pedido.getEstado() != null) {
+            dto.setEstado(pedido.getEstado().name());
+        } else {
+            dto.setEstado("PENDIENTE"); // Valor por defecto
         }
+        
+        dto.setTotal(pedido.getTotal() != null ? pedido.getTotal() : 0.0);
+        dto.setNotas(pedido.getNotas());
+        dto.setFechaActualizacion(pedido.getFechaActualizacion());
+        
+        // Manejo seguro del usuario
+        if (pedido.getUsuario() != null) {
+            try {
+                dto.setUsuarioId(pedido.getUsuario().getId());
+                dto.setUsuarioEmail(pedido.getUsuario().getEmail());
+                String nombreCompleto = "";
+                if (pedido.getUsuario().getNombre() != null) {
+                    nombreCompleto += pedido.getUsuario().getNombre();
+                }
+                if (pedido.getUsuario().getApellido() != null) {
+                    if (!nombreCompleto.isEmpty()) {
+                        nombreCompleto += " ";
+                    }
+                    nombreCompleto += pedido.getUsuario().getApellido();
+                }
+                dto.setUsuarioNombre(nombreCompleto);
+            } catch (Exception e) {
+                // Si falla el acceso lazy, usar valores por defecto
+                dto.setUsuarioId(null);
+                dto.setUsuarioEmail("usuario_no_disponible");
+                dto.setUsuarioNombre("Usuario No Disponible");
+            }
+        }
+        
+        // Agregar información de dirección de envío si existe
+        if (pedido.getDireccionEnvio() != null) {
+            try {
+                dto.setDireccionEnvioId(pedido.getDireccionEnvio().getId());
+            } catch (Exception e) {
+                // Ignorar si falla el acceso lazy
+                dto.setDireccionEnvioId(null);
+            }
+        }
+        
         return dto;
     }
     
     private Pedido convertirAEntidad(PedidoDTO dto) {
         Pedido pedido = new Pedido();
-        pedido.setEstado(dto.getEstado());
+        
+        // Establecer campos básicos
+        if (dto.getEstado() != null) {
+            pedido.setEstado(Pedido.EstadoPedido.valueOf(dto.getEstado()));
+        } else {
+            pedido.setEstado(Pedido.EstadoPedido.PENDIENTE); // Estado por defecto
+        }
+        
         if (dto.getFecha() != null) {
             pedido.setFecha(dto.getFecha());
+        } else {
+            pedido.setFecha(LocalDateTime.now()); // Fecha actual por defecto
         }
+        
+        if (dto.getTotal() != null) {
+            pedido.setTotal(dto.getTotal());
+        }
+        
+        if (dto.getNotas() != null) {
+            pedido.setNotas(dto.getNotas());
+        }
+        
+        // Procesar items del pedido
+        if (dto.getItems() != null && !dto.getItems().isEmpty()) {
+            for (PedidoItemDTO itemDTO : dto.getItems()) {
+                PedidoItem item = new PedidoItem();
+                item.setCantidad(itemDTO.getCantidad());
+                item.setPrecioUnitario(itemDTO.getPrecioUnitario());
+                
+                // Calcular subtotal si no viene en el DTO
+                if (itemDTO.getSubtotal() != null) {
+                    item.setSubtotal(itemDTO.getSubtotal());
+                } else if (itemDTO.getCantidad() != null && itemDTO.getPrecioUnitario() != null) {
+                    item.setSubtotal(itemDTO.getCantidad() * itemDTO.getPrecioUnitario());
+                }
+                
+                // Buscar y asignar el producto
+                if (itemDTO.getProductoId() != null) {
+                    Optional<Producto> producto = productoRepository.findById(itemDTO.getProductoId());
+                    if (producto.isPresent()) {
+                        item.setProducto(producto.get());
+                    }
+                }
+                
+                // Establecer relación bidireccional
+                item.setPedido(pedido);
+                pedido.getItems().add(item);
+            }
+        }
+        
         return pedido;
     }
 }

@@ -5,7 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ArrayList;
 
+/**
+ * DTO para Producto optimizado para frontend
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +24,7 @@ public class ProductoDTO {
     private Boolean destacado;
     private LocalDateTime fechaCreacion;
     private LocalDateTime fechaActualizacion;
+    
     // Campos específicos para obras de arte (exactos del frontend)
     private String artista; // Nombre del artista
     private Long artistaId; // ID del artista
@@ -27,6 +32,13 @@ public class ProductoDTO {
     private String tecnica; // technique - Óleo, acuarela, acrílico, etc.
     private String dimensiones; // dimensions - "80x60 cm"
     private Integer anio; // year - Año de creación
-    private String estilo; // style - Estilo artístico (opcional)
-    private List<String> categorias; // Solo nombres de categorías para el frontend
+    private String estilo; // style - Estilo artístico
+    
+    // Categorías para el frontend
+    private List<String> categorias = new ArrayList<>(); // Solo nombres de categorías
+    private List<Long> categoriaIds = new ArrayList<>(); // IDs para el backend
+    
+    // Información adicional del artista (si existe relación)
+    private String artistaBiografia;
+    private String artistaImagenPerfil;
 }
