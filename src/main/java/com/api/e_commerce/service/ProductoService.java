@@ -37,6 +37,9 @@ public class ProductoService {
     @Autowired
     private ValidationService validationService;
 
+    @Autowired
+    private ImageService imageService;
+
     // --- MÉTODOS GET (Sin cambios en lógica, ya son públicos) ---
     public List<ProductoDTO> getAllProductos() {
         return productoRepository.findAll().stream()
@@ -219,7 +222,10 @@ public class ProductoService {
         dto.setDescripcion(producto.getDescripcion());
         dto.setPrecio(producto.getPrecio());
         dto.setStock(producto.getStock());
-        dto.setImagen(producto.getImagen());
+        
+        // Usar proxy para imágenes externas (evita CORB)
+        dto.setImagen(imageService.getProxiedImageUrl(producto.getImagen()));
+        
         dto.setActivo(producto.getActivo());
         dto.setDestacado(producto.getDestacado());
         dto.setFechaCreacion(producto.getFechaCreacion());
