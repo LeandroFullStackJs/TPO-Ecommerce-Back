@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(@NonNull CorsRegistry registry) {
-        registry.addMapping("/api/**")
+        registry.addMapping("/**")  // Cambiar de /api/** a /** para incluir todo
                 .allowedOriginPatterns(
                     "http://localhost:3000",    // React development server
                     "http://localhost:5173",    // Vite development server  
@@ -27,8 +27,9 @@ public class WebConfig implements WebMvcConfigurer {
                     "https://*.vercel.app",     // Vercel deployments
                     "https://*.netlify.app"     // Netlify deployments
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD")
                 .allowedHeaders("*")
+                .exposedHeaders("*")  // Exponer todos los headers
                 .allowCredentials(true)
                 .maxAge(3600);
     }

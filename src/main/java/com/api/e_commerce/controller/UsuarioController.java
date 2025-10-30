@@ -30,6 +30,13 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
+    // Endpoint para debug - listar todos los emails sin autenticación
+    @GetMapping("/debug/emails")
+    public ResponseEntity<List<String>> getEmails() {
+        List<String> emails = usuarioService.getAllEmails();
+        return ResponseEntity.ok(emails);
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<UsuarioDTO> obtenerUsuarioPorId(@PathVariable Long id) {
@@ -64,6 +71,39 @@ public class UsuarioController {
         } else {
              // Si eliminarUsuario devuelve false porque no existe, lanzar excepción
              throw new UsuarioNotFoundException(id);
+        }
+    }
+
+    @PutMapping("/{id}/password")
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
+    public ResponseEntity<String> cambiarPassword(@PathVariable Long id, @RequestBody PasswordChangeRequest request) {
+        try {
+            usuarioService.cambiarPassword(id, request.getCurrentPassword(), request.getNewPassword());
+            return ResponseEntity.ok("Contraseña actualizada correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al cambiar contraseña: " + e.getMessage());
+        }
+    }
+
+    // Clase interna para el request de cambio de contraseña
+    public static class PasswordChangeRequest {
+        private String currentPassword;
+        private String newPassword;
+
+        public String getCurrentPassword() {
+            return currentPassword;
+        }
+
+        public void setCurrentPassword(String currentPassword) {
+            this.currentPassword = currentPassword;
+        }
+
+        public String getNewPassword() {
+            return newPassword;
+        }
+
+        public void setNewPassword(String newPassword) {
+            this.newPassword = newPassword;
         }
     }
 }

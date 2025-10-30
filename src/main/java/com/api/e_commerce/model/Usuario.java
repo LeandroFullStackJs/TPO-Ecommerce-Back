@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.List;
 import java.util.Arrays;
+import java.util.ArrayList;
 
 
 @Data
@@ -51,9 +52,22 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private String role = "USER";
     
+    // Relaciones optimizadas con otras entidades
+    
+    // Pedidos realizados por el usuario
     @JsonIgnore
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
-    private List<Pedido> pedidos;
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Pedido> pedidos = new ArrayList<>();
+    
+    // Productos creados por el usuario (si es artista/vendedor)
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuarioCreador", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Producto> productosCreados = new ArrayList<>();
+    
+    // Direcciones del usuario
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Direccion> direcciones = new ArrayList<>();
 
     // Implementación de UserDetails
     @Override

@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
@@ -41,6 +44,11 @@ public class Artista {
     
     @Column(name = "fecha_actualizacion")
     private LocalDateTime fechaActualizacion = LocalDateTime.now();
+    
+    // Relación con productos - Un artista puede tener muchas obras
+    @JsonIgnore
+    @OneToMany(mappedBy = "artistaEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Producto> productos = new ArrayList<>();
     
     @PreUpdate
     public void preUpdate() {

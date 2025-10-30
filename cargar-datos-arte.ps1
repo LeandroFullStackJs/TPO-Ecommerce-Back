@@ -107,13 +107,13 @@ Write-Host "`n🖼️ 3. AGREGANDO OBRAS DE ARTE" -ForegroundColor Cyan
 
 $productos = @(
     @{
-        nombreObra = "Amanecer Abstracto"
+        nombre = "Amanecer Abstracto"
         descripcion = "Una interpretación moderna del amanecer a través de formas geométricas y colores cálidos. Esta obra captura la energía del nuevo día."
         precio = 1500.00
         stock = 1
         imagen = "/api/proxy/image?url=https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=500&h=600&fit=crop"
         artista = "María García"
-        tecnica = "Óleo sobre lienzo"
+        tecnica = "Oleo sobre lienzo"
         dimensiones = "80cm x 100cm"
         anio = 2023
         estilo = "Abstracto"
@@ -122,11 +122,11 @@ $productos = @(
         categoriaIds = @(1, 5) # Pintura, Arte Abstracto
     },
     @{
-        nombreObra = "Serenidad en Bronce"
+        nombre = "Serenidad en Bronce"
         descripcion = "Escultura que representa la tranquilidad del espíritu humano. Cada curva ha sido cuidadosamente trabajada para transmitir paz."
         precio = 3500.00
         stock = 1
-        imagen = "/api/proxy/image?url=https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&h=600&fit=crop"
+        imagen = "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500`&h=600`&fit=crop"
         artista = "Carlos Mendoza"
         tecnica = "Bronce fundido"
         dimensiones = "45cm x 30cm x 25cm"
@@ -137,11 +137,11 @@ $productos = @(
         categoriaIds = @(2, 8) # Escultura, Arte Contemporáneo
     },
     @{
-        nombreObra = "Bosque Susurrante"
+        nombre = "Bosque Susurrante"
         descripcion = "Fotografía capturada en el momento perfecto donde la luz se filtra entre los árboles creando un ambiente mágico."
         precio = 800.00
         stock = 3
-        imagen = "/api/proxy/image?url=https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=600&fit=crop"
+        imagen = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=500&h=600&fit=crop"
         artista = "Ana Rodríguez"
         tecnica = "Fotografía digital"
         dimensiones = "60cm x 90cm"
@@ -152,7 +152,7 @@ $productos = @(
         categoriaIds = @(3) # Fotografía
     },
     @{
-        nombreObra = "Visiones Digitales"
+        nombre = "Visiones Digitales"
         descripcion = "Obra digital que explora las posibilidades infinitas del arte generado por computadora, fusionando realidad y fantasía."
         precio = 1200.00
         stock = 2
@@ -167,7 +167,7 @@ $productos = @(
         categoriaIds = @(4, 8) # Arte Digital, Arte Contemporáneo
     },
     @{
-        nombreObra = "Melodía Visual"
+        nombre = "Melodía Visual"
         descripcion = "Pintura que traduce la música clásica en colores y formas. Cada pincelada representa una nota musical."
         precio = 2200.00
         stock = 1
@@ -182,7 +182,7 @@ $productos = @(
         categoriaIds = @(1, 5) # Pintura, Arte Abstracto
     },
     @{
-        nombreObra = "Reflejo Urbano"
+        nombre = "Reflejo Urbano"
         descripcion = "Fotografía urbana que captura el contraste entre la arquitectura moderna y la vida cotidiana en la ciudad."
         precio = 950.00
         stock = 2
@@ -199,10 +199,10 @@ $productos = @(
 )
 
 foreach ($producto in $productos) {
-    Write-Host "Agregando obra: $($producto.nombreObra)" -ForegroundColor White
+    Write-Host "Agregando obra: $($producto.nombre)" -ForegroundColor White
     $response = Invoke-ApiRequest -Method "POST" -Url "$baseUrl/productos" -Body $producto
     if ($response) {
-        Write-Host "✅ Obra '$($producto.nombreObra)' agregada con ID: $($response.id)" -ForegroundColor Green
+        Write-Host "✅ Obra '$($producto.nombre)' agregada con ID: $($response.id)" -ForegroundColor Green
     }
     Start-Sleep 2
 }
