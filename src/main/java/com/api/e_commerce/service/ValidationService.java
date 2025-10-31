@@ -4,6 +4,7 @@ import com.api.e_commerce.exception.InvalidDataException;
 import com.api.e_commerce.exception.PrecioNegativoException;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -12,23 +13,21 @@ import java.util.regex.Pattern;
 @Service
 public class ValidationService {
 
-    private static final Pattern EMAIL_PATTERN = 
+    // Patrones (expresiones regulares) para validaciones
+    private static final Pattern EMAIL_PATTERN =
         Pattern.compile("^[A-Za-z0-9+_.-]+@([A-Za-z0-9.-]+\\.[A-Za-z]{2,})$");
-    
-    private static final Pattern PHONE_PATTERN = 
+
+    private static final Pattern PHONE_PATTERN =
         Pattern.compile("^[+]?[0-9]{10,15}$");
-        
-    private static final Pattern URL_PATTERN = 
-        Pattern.compile("^(https?:\\/\\/)?([\\w\\-])+\\.{1}([a-zA-Z]{2,63})([\\/\\w-]*)*\\/?\\??([^#\\n\\r]*)?#?([^\\n\\r]*)$");
-    
-    private static final Pattern PROXY_URL_PATTERN = 
-        Pattern.compile("^/api/proxy/image\\?url=.*");
+
+    // Patrón de URL ELIMINADO
 
     // Patrones para complejidad de contraseña
     private static final Pattern UPPERCASE_PATTERN = Pattern.compile(".*[A-Z].*");
     private static final Pattern LOWERCASE_PATTERN = Pattern.compile(".*[a-z].*");
     private static final Pattern DIGIT_PATTERN = Pattern.compile(".*\\d.*");
     private static final Pattern SYMBOL_PATTERN = Pattern.compile(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+
 
     /**
      * Valida que un precio sea válido (no negativo)
@@ -93,7 +92,7 @@ public class ValidationService {
     public void validarLongitudMinima(String texto, String campo, int longitudMinima) {
         validarTextoNoVacio(texto, campo);
         if (texto.trim().length() < longitudMinima) {
-            throw new InvalidDataException(campo, texto, 
+            throw new InvalidDataException(campo, texto,
                 "El campo " + campo + " debe tener al menos " + longitudMinima + " caracteres");
         }
     }
@@ -103,7 +102,7 @@ public class ValidationService {
      */
     public void validarLongitudMaxima(String texto, String campo, int longitudMaxima) {
         if (texto != null && texto.length() > longitudMaxima) {
-            throw new InvalidDataException(campo, texto, 
+            throw new InvalidDataException(campo, "[muy largo]", // Evitar mostrar textos largos en el error
                 "El campo " + campo + " no puede exceder " + longitudMaxima + " caracteres");
         }
     }
@@ -113,8 +112,10 @@ public class ValidationService {
      */
     public void validarTelefono(String telefono) {
         if (telefono != null && !telefono.trim().isEmpty()) {
-            if (!PHONE_PATTERN.matcher(telefono.replaceAll("\\s", "")).matches()) {
-                throw new InvalidDataException("telefono", telefono, "El formato del teléfono no es válido");
+            // Elimina espacios antes de validar
+            String telefonoLimpio = telefono.replaceAll("\\s", "");
+            if (!PHONE_PATTERN.matcher(telefonoLimpio).matches()) {
+                throw new InvalidDataException("telefono", telefono, "El formato del teléfono no es válido (solo números, opcionalmente '+' al inicio, 10-15 dígitos)");
             }
         }
     }
@@ -132,11 +133,12 @@ public class ValidationService {
     }
 
     /**
-     * Valida contraseña (longitud mínima)
+     * Valida contraseña (longitud mínima y complejidad)
      */
     public void validarPassword(String password) {
-        validarLongitudMinima(password, "password", 6);
-        
+        validarLongitudMinima(password, "password", 6); // Mantiene la longitud mínima de 6
+
+        // Validaciones de complejidad (activas)
         if (!UPPERCASE_PATTERN.matcher(password).matches()) {
             throw new InvalidDataException("password", "****", "La contraseña debe contener al menos una mayúscula");
         }
@@ -146,10 +148,9 @@ public class ValidationService {
         if (!DIGIT_PATTERN.matcher(password).matches()) {
             throw new InvalidDataException("password", "****", "La contraseña debe contener al menos un número");
         }
-        if (!SYMBOL_PATTERN.matcher(password).matches()) { // Descomenta si requieres símbolos
-             throw new InvalidDataException("password", "****", "La contraseña debe contener al menos un símbolo");
-         }
-
+        // if (!SYMBOL_PATTERN.matcher(password).matches()) { // Descomenta si requieres símbolos
+        //     throw new InvalidDataException("password", "****", "La contraseña debe contener al menos un símbolo");
+        // }
     }
 
     /**
@@ -158,19 +159,33 @@ public class ValidationService {
     public void validarAnio(Integer anio) {
         if (anio != null) {
             int currentYear = java.time.Year.now().getValue();
-            if (anio < 1000 || anio > currentYear) {
-                throw new InvalidDataException("año", anio.toString(), 
-                    "El año debe estar entre 1000 y " + currentYear);
+            if (anio < 1000 || anio > currentYear + 1) { // Permite hasta el año siguiente por si acaso
+                throw new InvalidDataException("año", anio.toString(),
+                    "El año debe ser válido (ej: entre 1000 y " + (currentYear + 1) + ")");
             }
         }
     }
 
-    public void validarUrl(String url, String campo) {
-        if (url != null && !url.trim().isEmpty()) {
-            // Permitir URLs de proxy locales o URLs web estándar
-            if (!URL_PATTERN.matcher(url).matches() && !PROXY_URL_PATTERN.matcher(url).matches()) {
-                throw new InvalidDataException(campo, url, "El formato de la URL no es válido para el campo " + campo);
+    /**
+     * Valida que un valor pertenezca a una lista de valores permitidos.
+     * Ignora mayúsculas/minúsculas para la comparación.
+     */
+    public void validarValorPermitido(String valor, String campo, List<String> valoresPermitidos) {
+        if (valor == null || valor.trim().isEmpty()) {
+            throw new InvalidDataException(campo, "vacío", "El campo " + campo + " no puede estar vacío");
+        }
+        boolean encontrado = false;
+        for (String permitido : valoresPermitidos) {
+            if (permitido.equalsIgnoreCase(valor.trim())) {
+                encontrado = true;
+                break;
             }
         }
-}
+        if (!encontrado) {
+            throw new InvalidDataException(campo, valor, "El valor '" + valor + "' no es válido para " + campo +
+                ". Valores permitidos: " + String.join(", ", valoresPermitidos));
+        }
+    }
+
+    
 }

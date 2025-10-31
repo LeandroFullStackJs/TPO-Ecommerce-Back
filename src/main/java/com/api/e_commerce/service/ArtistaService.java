@@ -6,8 +6,6 @@ import com.api.e_commerce.dto.ArtistaCreateDTO;
 import com.api.e_commerce.dto.ArtistaUpdateDTO;
 import com.api.e_commerce.repository.ArtistaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication; // IMPORTANTE
-import org.springframework.security.core.context.SecurityContextHolder; // IMPORTANTE
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,8 +46,6 @@ public class ArtistaService {
         } else {
             validationService.validarTextoNoVacio(artistaCreateDTO.getEmail(), "email");
         }
-        // Validación URL
-        validationService.validarUrl(artistaCreateDTO.getImagenPerfil(), "imagenPerfil");
 
         Artista artista = convertirAEntidad(artistaCreateDTO);
         artista.setFechaCreacion(LocalDateTime.now());
@@ -64,10 +60,7 @@ public class ArtistaService {
         return artistaRepository.findById(id).map(artista -> {
             
             // --- VERIFICACIÓN DE SEGURIDAD (Se asume que la modificación es solo de ADMIN o del artista) ---
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            // Lógica compleja para verificar si el usuario logueado es el dueño. 
-            // Por simplicidad, si no hay un campo 'usuarioId' en Artista, forzamos que sea ADMIN.
-            // Si la regla en Controller es USER/ADMIN, la validación se hace a nivel de rol.
+            // Se eliminó la obtención de Authentication porque no se estaba usando.
             
             // Validaciones Email
             if (artistaUpdateDTO.getEmail() != null && !artistaUpdateDTO.getEmail().trim().isEmpty()) {
@@ -77,11 +70,6 @@ public class ArtistaService {
                     artistaRepository.existsByEmailAndIdNot(artistaUpdateDTO.getEmail(), id)) {
                     throw new com.api.e_commerce.exception.DuplicateDataException("artista", "email", artistaUpdateDTO.getEmail());
                  }
-            }
-            
-            // Validación URL
-            if (artistaUpdateDTO.getImagenPerfil() != null) {
-                validationService.validarUrl(artistaUpdateDTO.getImagenPerfil(), "imagenPerfil");
             }
 
             actualizarCampos(artista, artistaUpdateDTO);

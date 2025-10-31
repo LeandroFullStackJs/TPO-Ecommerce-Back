@@ -89,13 +89,6 @@ public class ProductoService {
         if (productoCreateDTO.getAnio() != null) {
             validationService.validarAnio(productoCreateDTO.getAnio());
         }
-
-        // Validación URL (para los 4 campos de imagen)
-        validationService.validarUrl(productoCreateDTO.getImagen(), "imagen");
-        validationService.validarUrl(productoCreateDTO.getImagenAdicional1(), "imagenAdicional1");
-        validationService.validarUrl(productoCreateDTO.getImagenAdicional2(), "imagenAdicional2");
-        validationService.validarUrl(productoCreateDTO.getImagenAdicional3(), "imagenAdicional3");
-        
         
         Producto producto = productoMapper.fromCreateDTO(productoCreateDTO);
         producto.setFechaCreacion(LocalDateTime.now());
@@ -158,13 +151,6 @@ public class ProductoService {
         if (productoDTO.getAnio() != null) {
             validationService.validarAnio(productoDTO.getAnio());
         }
-        
-        // Validación URL (para los 4 campos de imagen)
-        if (productoDTO.getImagen() != null) { validationService.validarUrl(productoDTO.getImagen(), "imagen"); }
-        if (productoDTO.getImagenAdicional1() != null) { validationService.validarUrl(productoDTO.getImagenAdicional1(), "imagenAdicional1"); }
-        if (productoDTO.getImagenAdicional2() != null) { validationService.validarUrl(productoDTO.getImagenAdicional2(), "imagenAdicional2"); }
-        if (productoDTO.getImagenAdicional3() != null) { validationService.validarUrl(productoDTO.getImagenAdicional3(), "imagenAdicional3"); }
-
 
         return productoRepository.findById(id)
             .map(producto -> {
