@@ -7,7 +7,9 @@ import com.api.e_commerce.model.Usuario;
 import java.util.List;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
+    @Query("SELECT p FROM Pedido p JOIN FETCH p.usuario WHERE p.usuario = :usuario")
     List<Pedido> findByUsuario(Usuario usuario);
+    
     List<Pedido> findByEstado(String estado);
     
     @Query("SELECT p FROM Pedido p JOIN FETCH p.usuario")

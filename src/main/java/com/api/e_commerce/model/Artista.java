@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @NoArgsConstructor
@@ -22,14 +25,18 @@ public class Artista {
     @Column(nullable = false)
     private String nombre; // name en frontend
     
-    @Column(length = 2000)
+    @NotBlank(message = "La biografía es obligatoria")
+    @Column(nullable = false, length = 2000)
     private String biografia; // biography en frontend
-    
+
     private String imagenPerfil; // profileImage en frontend
     
+    @NotBlank(message = "El email es obligatorio")
     @Email(message = "Email debe ser válido")
+    @Column(nullable = false)
     private String email; // email de contacto
     
+    @Column(nullable = false)
     private Boolean activo = true;
     
     @Column(name = "fecha_creacion")
@@ -37,6 +44,11 @@ public class Artista {
     
     @Column(name = "fecha_actualizacion")
     private LocalDateTime fechaActualizacion = LocalDateTime.now();
+    
+    // Relación con productos - Un artista puede tener muchas obras
+    @JsonIgnore
+    @OneToMany(mappedBy = "artistaEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Producto> productos = new ArrayList<>();
     
     @PreUpdate
     public void preUpdate() {

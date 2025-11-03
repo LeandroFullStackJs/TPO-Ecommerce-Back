@@ -18,7 +18,7 @@ import com.api.e_commerce.service.ProductoService;
 
 @RestController
 @RequestMapping("/api/productos")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = {"http://localhost:5173"})
 
 public class ProductoController {
 
@@ -99,5 +99,23 @@ public class ProductoController {
         // Se quita el try-catch. Dejamos que el Service lance excepciones (NotFound, AccessDenied)
         productoService.deleteProducto(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Decrementar stock de producto (Auth - para compras)
+    @PutMapping("/{id}/decrementar-stock")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ProductoDTO> decrementarStock(@PathVariable Long id, 
+                                                       @RequestParam Integer cantidad) {
+        ProductoDTO producto = productoService.decrementarStock(id, cantidad);
+        return ResponseEntity.ok(producto);
+    }
+
+    // Incrementar stock de producto (Auth - para devoluciones)
+    @PutMapping("/{id}/incrementar-stock")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ProductoDTO> incrementarStock(@PathVariable Long id, 
+                                                       @RequestParam Integer cantidad) {
+        ProductoDTO producto = productoService.incrementarStock(id, cantidad);
+        return ResponseEntity.ok(producto);
     }
 }

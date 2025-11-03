@@ -60,6 +60,12 @@ public class DireccionService {
         dto.setLocalidad(direccion.getLocalidad());
         dto.setProvincia(direccion.getProvincia());
         dto.setPais(direccion.getPais());
+        dto.setCodigoPostal(direccion.getCodigoPostal());
+        dto.setObservaciones(direccion.getObservaciones());
+        dto.setEsPrincipal(direccion.getEsPrincipal());
+        if (direccion.getUsuario() != null) {
+            dto.setUsuarioId(direccion.getUsuario().getId());
+        }
         return dto;
     }
     
@@ -70,6 +76,9 @@ public class DireccionService {
         direccion.setLocalidad(dto.getLocalidad());
         direccion.setProvincia(dto.getProvincia());
         direccion.setPais(dto.getPais());
+        direccion.setCodigoPostal(dto.getCodigoPostal());
+        direccion.setObservaciones(dto.getObservaciones());
+        direccion.setEsPrincipal(dto.getEsPrincipal());
         return direccion;
     }
 }

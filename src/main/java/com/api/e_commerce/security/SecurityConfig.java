@@ -37,12 +37,25 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                // Endpoints de utilidad públicos
+                .requestMatchers("/api/health", "/api/info").permitAll()
+                // Proxy de imágenes público (evita CORB)
+                .requestMatchers("/api/proxy/**").permitAll()
+                // Auth endpoints
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/demo/**").permitAll() // Demo endpoints for testing exceptions
-                .requestMatchers("/api/productos", "/api/productos/{id}", "/api/productos/buscar", "/api/productos/destacados", "/api/productos/categoria/{categoriaId}").permitAll() // GET operations public
-                .requestMatchers("/api/categorias", "/api/categorias/{id}").permitAll() // Categories public
-                .requestMatchers("/api/artistas", "/api/artistas/{id}", "/api/artistas/buscar").permitAll() // GET artistas public
+                // Demo endpoints for testing exceptions
+                .requestMatchers("/api/demo/**").permitAll() 
+                // Productos - GET operations public
+                .requestMatchers("/api/productos", "/api/productos/{id}", "/api/productos/buscar", "/api/productos/destacados", "/api/productos/categoria/{categoriaId}").permitAll() 
+                // Categories public
+                .requestMatchers("/api/categorias", "/api/categorias/{id}").permitAll() 
+                // Artistas - GET operations public
+                .requestMatchers("/api/artistas", "/api/artistas/{id}", "/api/artistas/buscar").permitAll() 
+                // H2 Console (for development)
                 .requestMatchers("/h2-console/**").permitAll()
+                // OPTIONS requests (for CORS preflight)
+                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                // Everything else requires authentication
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -58,10 +71,22 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // Permitir orígenes específicos del frontend
+        configuration.setAllowedOriginPatterns(Arrays.asList(
+            "http://localhost:3000",    // React
+            "http://localhost:5173",    // Vite
+            "http://localhost:4173",    // Vite preview
+            "http://127.0.0.1:3000",
+            "http://127.0.0.1:5173",
+            "http://127.0.0.1:4173",
+            "https://*.vercel.app",
+            "https://*.netlify.app"
+        ));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

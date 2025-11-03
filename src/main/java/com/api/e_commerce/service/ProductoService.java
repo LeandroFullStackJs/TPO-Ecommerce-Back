@@ -23,6 +23,7 @@ import com.api.e_commerce.repository.CategoriaRepository;
 import com.api.e_commerce.dto.ProductoDTO;
 import com.api.e_commerce.dto.ProductoCreateDTO;
 import com.api.e_commerce.dto.ProductoUpdateDTO;
+import com.api.e_commerce.dto.ProductoMapper;
 
 @Service
 @Transactional
@@ -37,42 +38,45 @@ public class ProductoService {
     @Autowired
     private ValidationService validationService;
 
+    @Autowired 
+    private ProductoMapper productoMapper;
+
     // --- MÉTODOS GET (Sin cambios en lógica, ya son públicos) ---
     public List<ProductoDTO> getAllProductos() {
         return productoRepository.findAll().stream()
-                .map(this::convertirADTO)
+                .map(productoMapper::toDTO)
                 .collect(Collectors.toList());
     }
     
     public List<ProductoDTO> getProductosActivos() {
         return productoRepository.findByActivoTrue().stream()
-                .map(this::convertirADTO)
+                .map(productoMapper::toDTO)
                 .collect(Collectors.toList());
     }
     
     public List<ProductoDTO> getProductosDestacados() {
         return productoRepository.findByDestacadoTrue().stream()
-                .map(this::convertirADTO)
+                .map(productoMapper::toDTO)
                 .collect(Collectors.toList());
     }
     
     public List<ProductoDTO> getProductosPorCategoria(Long categoriaId) {
         return productoRepository.findByCategorias_Id(categoriaId).stream()
-                .map(this::convertirADTO)
+                .map(productoMapper::toDTO)
                 .collect(Collectors.toList());
     }
     
     public List<ProductoDTO> buscarProductos(String termino) {
-        return productoRepository.findByNombreContainingIgnoreCaseOrDescripcionContainingIgnoreCase(termino, termino)
+        return productoRepository.findByNombreObraContainingIgnoreCaseOrDescripcionContainingIgnoreCase(termino, termino)
                 .stream()
-                .map(this::convertirADTO)
+                .map(productoMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
     public Optional<ProductoDTO> getProductoById(Long id) {
         validationService.validarId(id, "producto");
         return productoRepository.findById(id)
-                .map(this::convertirADTO);
+                .map(productoMapper::toDTO);
     }
 
     // --- MÉTODO PARA CREAR PRODUCTO (FUERZA PROPIEDAD) ---
@@ -85,22 +89,15 @@ public class ProductoService {
         if (productoCreateDTO.getAnio() != null) {
             validationService.validarAnio(productoCreateDTO.getAnio());
         }
-
-        // Validación URL (para los 4 campos de imagen)
-        validationService.validarUrl(productoCreateDTO.getImagen(), "imagen");
-        validationService.validarUrl(productoCreateDTO.getImagenAdicional1(), "imagenAdicional1");
-        validationService.validarUrl(productoCreateDTO.getImagenAdicional2(), "imagenAdicional2");
-        validationService.validarUrl(productoCreateDTO.getImagenAdicional3(), "imagenAdicional3");
         
-        
-        Producto producto = convertirAEntidad(productoCreateDTO);
+        Producto producto = productoMapper.fromCreateDTO(productoCreateDTO);
         producto.setFechaCreacion(LocalDateTime.now());
         producto.setFechaActualizacion(LocalDateTime.now());
 
         // --- ¡FORZAR PROPIEDAD! El creador es el usuario autenticado ---
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioActual = (Usuario) authentication.getPrincipal();
-        producto.setUsuarioId(usuarioActual.getId());
+        producto.setUsuarioCreador(usuarioActual); // Usar la relación en lugar del ID
         // --- FIN FORZAR PROPIEDAD ---
         
         // Asociar categorías
@@ -116,7 +113,7 @@ public class ProductoService {
         }
         
         Producto productoGuardado = productoRepository.save(producto);
-        return convertirADTO(productoGuardado);
+        return productoMapper.toDTO(productoGuardado);
     }
 
     // --- MÉTODO PARA ELIMINAR PRODUCTO (VERIFICA PROPIEDAD) ---
@@ -130,7 +127,8 @@ public class ProductoService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioActual = (Usuario) authentication.getPrincipal();
         
-        if (!usuarioActual.getRole().equals("ADMIN") && !producto.getUsuarioId().equals(usuarioActual.getId())) {
+        if (!usuarioActual.getRole().equals("ADMIN") && 
+            (producto.getUsuarioCreador() == null || !producto.getUsuarioCreador().getId().equals(usuarioActual.getId()))) {
             throw new AccessDeniedException("No tienes permiso para eliminar este producto.");
         }
         // --- FIN VERIFICACIÓN DE PROPIEDAD ---
@@ -153,13 +151,6 @@ public class ProductoService {
         if (productoDTO.getAnio() != null) {
             validationService.validarAnio(productoDTO.getAnio());
         }
-        
-        // Validación URL (para los 4 campos de imagen)
-        if (productoDTO.getImagen() != null) { validationService.validarUrl(productoDTO.getImagen(), "imagen"); }
-        if (productoDTO.getImagenAdicional1() != null) { validationService.validarUrl(productoDTO.getImagenAdicional1(), "imagenAdicional1"); }
-        if (productoDTO.getImagenAdicional2() != null) { validationService.validarUrl(productoDTO.getImagenAdicional2(), "imagenAdicional2"); }
-        if (productoDTO.getImagenAdicional3() != null) { validationService.validarUrl(productoDTO.getImagenAdicional3(), "imagenAdicional3"); }
-
 
         return productoRepository.findById(id)
             .map(producto -> {
@@ -167,12 +158,13 @@ public class ProductoService {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                 Usuario usuarioActual = (Usuario) authentication.getPrincipal();
 
-                if (!usuarioActual.getRole().equals("ADMIN") && !producto.getUsuarioId().equals(usuarioActual.getId())) {
+                if (!usuarioActual.getRole().equals("ADMIN") && 
+                    (producto.getUsuarioCreador() == null || !producto.getUsuarioCreador().getId().equals(usuarioActual.getId()))) {
                     throw new AccessDeniedException("No tienes permiso para modificar este producto.");
                 }
                 // --- FIN VERIFICACIÓN DE PROPIEDAD ---
 
-                actualizarCamposProducto(producto, productoDTO);
+                productoMapper.updateFromDTO(producto, productoDTO);
                 producto.setFechaActualizacion(LocalDateTime.now());
                 
                 // Actualizar categorías
@@ -188,78 +180,39 @@ public class ProductoService {
                 }
                 
                 Producto productoActualizado = productoRepository.save(producto);
-                return convertirADTO(productoActualizado);
+                return productoMapper.toDTO(productoActualizado);
             })
             .orElseThrow(() -> new ProductoNotFoundException(id));
     }
+
+    // --- MÉTODOS DE GESTIÓN DE STOCK ---
     
-    // --- MÉTODOS AUXILIARES (DEJADOS COMO ESTÁN EN TUS ARCHIVOS) ---
-    private void actualizarCamposProducto(Producto producto, ProductoUpdateDTO dto) {
-        if (dto.getNombre() != null) producto.setNombreObra(dto.getNombre());
-        if (dto.getDescripcion() != null) producto.setDescripcion(dto.getDescripcion());
-        if (dto.getPrecio() != null) producto.setPrecio(dto.getPrecio());
-        if (dto.getStock() != null) producto.setStock(dto.getStock());
-        if (dto.getImagen() != null) producto.setImagen(dto.getImagen());
-        if (dto.getActivo() != null) producto.setActivo(dto.getActivo());
-        if (dto.getDestacado() != null) producto.setDestacado(dto.getDestacado());
-        // Campos específicos para obras de arte (exactos del frontend)
-        if (dto.getArtista() != null) producto.setArtista(dto.getArtista());
-        if (dto.getArtistaId() != null) producto.setArtistaId(dto.getArtistaId());
-        if (dto.getUsuarioId() != null) producto.setUsuarioId(dto.getUsuarioId());
-        if (dto.getTecnica() != null) producto.setTecnica(dto.getTecnica());
-        if (dto.getDimensiones() != null) producto.setDimensiones(dto.getDimensiones());
-        if (dto.getAnio() != null) producto.setAnio(dto.getAnio());
-        if (dto.getEstilo() != null) producto.setEstilo(dto.getEstilo());
+    public ProductoDTO decrementarStock(Long id, Integer cantidad) {
+        return productoRepository.findById(id)
+            .map(producto -> {
+                if (producto.getStock() < cantidad) {
+                    throw new com.api.e_commerce.exception.InsufficientStockException(
+                        "Stock insuficiente. Stock actual: " + producto.getStock() + ", solicitado: " + cantidad);
+                }
+                
+                producto.setStock(producto.getStock() - cantidad);
+                producto.setFechaActualizacion(LocalDateTime.now());
+                
+                Producto productoActualizado = productoRepository.save(producto);
+                return productoMapper.toDTO(productoActualizado);
+            })
+            .orElseThrow(() -> new ProductoNotFoundException(id));
     }
-    
-    public ProductoDTO convertirADTO(Producto producto) {
-        ProductoDTO dto = new ProductoDTO();
-        dto.setId(producto.getId());
-        dto.setNombreObra(producto.getNombreObra());
-        dto.setDescripcion(producto.getDescripcion());
-        dto.setPrecio(producto.getPrecio());
-        dto.setStock(producto.getStock());
-        dto.setImagen(producto.getImagen());
-        dto.setActivo(producto.getActivo());
-        dto.setDestacado(producto.getDestacado());
-        dto.setFechaCreacion(producto.getFechaCreacion());
-        dto.setFechaActualizacion(producto.getFechaActualizacion());
-        // Campos específicos para obras de arte (exactos del frontend)
-        dto.setArtista(producto.getArtista());
-        dto.setArtistaId(producto.getArtistaId());
-        dto.setUsuarioId(producto.getUsuarioId());
-        dto.setTecnica(producto.getTecnica());
-        dto.setDimensiones(producto.getDimensiones());
-        dto.setAnio(producto.getAnio());
-        dto.setEstilo(producto.getEstilo());
-        
-        // Convertir categorías a lista de nombres
-        if (producto.getCategorias() != null) {
-            dto.setCategorias(producto.getCategorias().stream()
-                    .map(Categoria::getNombre)
-                    .collect(Collectors.toList()));
-        }
-        
-        return dto;
-    }
-    
-    private Producto convertirAEntidad(ProductoCreateDTO dto) {
-        Producto producto = new Producto();
-        producto.setNombreObra(dto.getNombre());
-        producto.setDescripcion(dto.getDescripcion());
-        producto.setPrecio(dto.getPrecio());
-        producto.setStock(dto.getStock());
-        producto.setImagen(dto.getImagen());
-        producto.setActivo(dto.getActivo() != null ? dto.getActivo() : true);
-        producto.setDestacado(dto.getDestacado() != null ? dto.getDestacado() : false);
-        // Campos específicos para obras de arte (exactos del frontend)
-        producto.setArtista(dto.getArtista());
-        producto.setArtistaId(dto.getArtistaId());
-        producto.setUsuarioId(dto.getUsuarioId());
-        producto.setTecnica(dto.getTecnica());
-        producto.setDimensiones(dto.getDimensiones());
-        producto.setAnio(dto.getAnio());
-        producto.setEstilo(dto.getEstilo());
-        return producto;
+
+    public ProductoDTO incrementarStock(Long id, Integer cantidad) {
+        return productoRepository.findById(id)
+            .map(producto -> {
+                producto.setStock(producto.getStock() + cantidad);
+                producto.setFechaActualizacion(LocalDateTime.now());
+                
+                Producto productoActualizado = productoRepository.save(producto);
+                return productoMapper.toDTO(productoActualizado);
+            })
+            .orElseThrow(() -> new ProductoNotFoundException(id));
     }
 }
