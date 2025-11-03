@@ -27,6 +27,14 @@ public class DireccionController {
         return ResponseEntity.ok(direcciones);
     }
 
+    // IMPORTANTE: Este endpoint debe estar ANTES de /{id} para que Spring lo capture correctamente
+    @GetMapping("/mias")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<DireccionDTO>> obtenerMisDirecciones() {
+        List<DireccionDTO> direcciones = direccionService.obtenerMisDirecciones();
+        return ResponseEntity.ok(direcciones);
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()") 
     public ResponseEntity<DireccionDTO> obtenerDireccionPorId(@PathVariable Long id) {

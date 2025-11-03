@@ -170,15 +170,39 @@ public class GlobalExceptionHandler {
 
     // ==================== EXCEPCIONES DE SEGURIDAD ====================
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ErrorResponse> manejarAutenticacion(
-            AuthenticationException ex, WebRequest request) {
-        logger.warn("Error de autenticación: {}", ex.getMessage());
+    // Manejar AuthenticationException personalizada
+    @ExceptionHandler(com.api.e_commerce.exception.AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> manejarAutenticacionPersonalizada(
+            com.api.e_commerce.exception.AuthenticationException ex, WebRequest request) {
+        logger.warn("Error de autenticación personalizada: {}", ex.getMessage());
         
         ErrorResponse errorResponse = new ErrorResponse(
             HttpStatus.UNAUTHORIZED.value(),
             "Error de Autenticación",
             ex.getMessage(),
+            request.getDescription(false).replace("uri=", "")
+        );
+        
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+    
+    // Manejar AuthenticationException de Spring Security
+    @ExceptionHandler(org.springframework.security.core.AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> manejarAutenticacionSpring(
+            org.springframework.security.core.AuthenticationException ex, WebRequest request) {
+        logger.warn("Error de autenticación Spring Security: {}", ex.getMessage());
+        
+        String mensaje = "Email o contraseña incorrectos";
+        if (ex.getCause() != null) {
+            mensaje = ex.getCause().getMessage();
+        } else if (ex.getMessage() != null && !ex.getMessage().isEmpty()) {
+            mensaje = ex.getMessage();
+        }
+        
+        ErrorResponse errorResponse = new ErrorResponse(
+            HttpStatus.UNAUTHORIZED.value(),
+            "Error de Autenticación",
+            mensaje,
             request.getDescription(false).replace("uri=", "")
         );
         
@@ -359,10 +383,16 @@ public class GlobalExceptionHandler {
             Exception ex, WebRequest request) {
         logger.error("Error interno no controlado: ", ex);
         
+        // Mensaje más descriptivo que incluya información útil
+        String mensaje = "Ha ocurrido un error interno";
+        if (ex.getMessage() != null && !ex.getMessage().isEmpty()) {
+            mensaje = ex.getMessage();
+        }
+        
         ErrorResponse errorResponse = new ErrorResponse(
             HttpStatus.INTERNAL_SERVER_ERROR.value(),
             "Error Interno del Servidor",
-            "Ha ocurrido un error interno. Por favor, contacte al soporte técnico",
+            mensaje,
             request.getDescription(false).replace("uri=", "")
         );
         
