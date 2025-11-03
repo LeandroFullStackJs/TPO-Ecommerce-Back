@@ -76,7 +76,7 @@ public class JwtService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (JwtException e) {
-            logger.error("Error parsing JWT token: {}", e.getMessage());
+            logger.warn("Error al parsear el token JWT: {}", e.getMessage());
             throw e;
         }
     }
