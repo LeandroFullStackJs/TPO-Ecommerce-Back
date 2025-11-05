@@ -11,7 +11,9 @@ import lombok.AllArgsConstructor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.ArrayList;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 @Data
 @NoArgsConstructor
@@ -78,6 +80,10 @@ public class Producto {
     @Column(nullable = false)
     private String estilo; // style - Estilo artístico (opcional)
     
+    // Token único y seguro para cada producto
+    @Column(name = "token", unique = true, updatable = false, nullable = false, length = 64)
+    private String token;
+
     // Relación Many-to-Many con Categorías con configuración optimizada
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
@@ -96,4 +102,18 @@ public class Producto {
     public void preUpdate() {
         this.fechaActualizacion = LocalDateTime.now();
     }
+
+    @PrePersist
+    public void prePersist() {
+    this.fechaCreacion = LocalDateTime.now();
+    this.fechaActualizacion = LocalDateTime.now();
+
+    // Generar token solo si no existe
+    if (this.token == null || this.token.isEmpty()) {
+        SecureRandom random = new SecureRandom();
+        byte[] bytes = new byte[32]; // 32 bytes = 256 bits de entropía
+        random.nextBytes(bytes);
+        this.token = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
+    }
+}
 }

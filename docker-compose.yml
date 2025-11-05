@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   backend:
-    image: tpo-ecommerce-back:latest
+    image: martinianot/tpo-ecommerce-back:latest
     container_name: backend_container
     ports:
       - "8080:8080"
