@@ -1,17 +1,15 @@
 package com.api.e_commerce.controller;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import jakarta.validation.Valid; 
 
 import com.api.e_commerce.dto.UsuarioDTO;
-import com.api.e_commerce.exception.UsuarioNotFoundException; // Importar excepción
 import com.api.e_commerce.service.UsuarioService;
 
 
@@ -38,27 +36,26 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or @securityService.esPropietario(authentication, #id)")
     public ResponseEntity<UsuarioDTO> obtenerUsuarioPorId(@PathVariable Long id) {
-        // Dejamos que el service lance UsuarioNotFoundException si no existe
-        Optional<UsuarioDTO> usuario = usuarioService.obtenerUsuarioPorId(id);
-        return usuario.map(ResponseEntity::ok)
-                .orElseThrow(() -> new UsuarioNotFoundException(id)); // Lanzar excepción para 404
+        // El servicio ahora devuelve un DTO directamente o lanza una excepción.
+        // El código del controlador es simple y directo.
+        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorId(id);
+        return ResponseEntity.ok(usuarioDTO);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UsuarioDTO> crearUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
-        // Se quita el try-catch.
-        // Nota: La creación de usuarios normales debe ser por /api/auth/register
+    public ResponseEntity<UsuarioDTO> crearUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         UsuarioDTO nuevoUsuario = usuarioService.crearUsuario(usuarioDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
-    public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @Valid @RequestBody UsuarioDTO usuarioDTO) {
-        // Dejamos que el service lance UsuarioNotFoundException si no existe
+    @PreAuthorize("hasRole('ADMIN') or @securityService.esPropietario(authentication, #id)")
+    public ResponseEntity<UsuarioDTO> actualizarUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+        // El servicio maneja todas las excepciones (NotFound, InvalidData).
+        // El controlador solo llama y devuelve la respuesta exitosa.
         UsuarioDTO usuarioActualizado = usuarioService.actualizarUsuario(id, usuarioDTO);
         return ResponseEntity.ok(usuarioActualizado);
     }
@@ -66,44 +63,21 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
-        if (usuarioService.eliminarUsuario(id)) {
-            return ResponseEntity.noContent().build();
-        } else {
-             // Si eliminarUsuario devuelve false porque no existe, lanzar excepción
-             throw new UsuarioNotFoundException(id);
-        }
+        // Ya no se comprueba un booleano. El servicio lanza una excepción si el usuario no existe.
+        // Si el método termina sin excepción, la operación fue exitosa.
+        usuarioService.eliminarUsuario(id);
+        return ResponseEntity.noContent().build(); // 204 No Content es la respuesta estándar para DELETE.
     }
 
-    @PutMapping("/{id}/password")
-    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
-    public ResponseEntity<String> cambiarPassword(@PathVariable Long id, @RequestBody PasswordChangeRequest request) {
-        try {
-            usuarioService.cambiarPassword(id, request.getCurrentPassword(), request.getNewPassword());
-            return ResponseEntity.ok("Contraseña actualizada correctamente");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al cambiar contraseña: " + e.getMessage());
-        }
+    @PatchMapping("/{id}/password") // Usar PATCH para actualizaciones parciales como la contraseña
+    @PreAuthorize("@securityService.esPropietario(authentication, #id)")
+    public ResponseEntity<Void> cambiarPassword(@PathVariable Long id, @RequestBody Map<String, String> payload) {
+        // Se elimina el try-catch. Las excepciones (NotFound, InvalidPassword)
+        // son manejadas por el GlobalExceptionHandler.
+        String currentPassword = payload.get("currentPassword");
+        String newPassword = payload.get("newPassword");
+        usuarioService.cambiarPassword(id, currentPassword, newPassword);
+        return ResponseEntity.ok().build(); // 200 OK para confirmar el éxito.
     }
 
-    // Clase interna para el request de cambio de contraseña
-    public static class PasswordChangeRequest {
-        private String currentPassword;
-        private String newPassword;
-
-        public String getCurrentPassword() {
-            return currentPassword;
-        }
-
-        public void setCurrentPassword(String currentPassword) {
-            this.currentPassword = currentPassword;
-        }
-
-        public String getNewPassword() {
-            return newPassword;
-        }
-
-        public void setNewPassword(String newPassword) {
-            this.newPassword = newPassword;
-        }
-    }
 }

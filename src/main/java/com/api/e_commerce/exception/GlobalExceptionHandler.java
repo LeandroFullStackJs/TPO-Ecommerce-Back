@@ -168,6 +168,36 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidUserDataException.class)
+    public ResponseEntity<ErrorResponse> manejarDatosDeUsuarioInvalidos(
+            InvalidUserDataException ex, WebRequest request) {
+        logger.warn("Datos de usuario inválidos: {}", ex.getMessage());
+        
+        ErrorResponse errorResponse = new ErrorResponse(
+            HttpStatus.BAD_REQUEST.value(),
+            "Datos de Usuario Inválidos",
+            ex.getMessage(),
+            request.getDescription(false).replace("uri=", "")
+        );
+        
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<ErrorResponse> manejarPasswordInvalido(
+            InvalidPasswordException ex, WebRequest request) {
+        logger.warn("Contraseña inválida: {}", ex.getMessage());
+        
+        ErrorResponse errorResponse = new ErrorResponse(
+            HttpStatus.BAD_REQUEST.value(),
+            "Contraseña Inválida",
+            ex.getMessage(),
+            request.getDescription(false).replace("uri=", "")
+        );
+        
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
     // ==================== EXCEPCIONES DE SEGURIDAD ====================
 
     @ExceptionHandler(AuthenticationException.class)

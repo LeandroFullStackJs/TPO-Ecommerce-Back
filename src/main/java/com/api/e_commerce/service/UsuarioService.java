@@ -1,7 +1,6 @@
 package com.api.e_commerce.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,10 @@ import org.springframework.transaction.annotation.*;
 import com.api.e_commerce.dto.UsuarioDTO;
 import com.api.e_commerce.model.Usuario;
 import com.api.e_commerce.repository.UsuarioRepository;
+import com.api.e_commerce.exception.InvalidPasswordException;
+import com.api.e_commerce.exception.InvalidUserDataException;
 import com.api.e_commerce.exception.UsuarioNotFoundException; // IMPORTANTE
-
+import com.api.e_commerce.exception.DuplicateDataException;
 @Service
 @Transactional
 public class UsuarioService {
@@ -41,10 +42,11 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UsuarioDTO> obtenerUsuarioPorId(Long id) {
+    public UsuarioDTO obtenerUsuarioPorId(Long id) {
         validationService.validarId(id, "usuario"); // Validar ID
         return usuarioRepository.findById(id)
-                .map(this::convertirADTO);
+                .map(this::convertirADTO)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
     }
 
     //saveUsuario
@@ -54,7 +56,15 @@ public class UsuarioService {
     }
     
     public UsuarioDTO crearUsuario(UsuarioDTO usuarioDTO) {
-        // Aquí irían validaciones de email duplicado si no se usa el endpoint /auth/register
+        // Validar que los datos básicos (nombre, apellido, email) no estén vacíos.
+        validarDatosUsuario(usuarioDTO);
+
+        // Validar que el email no esté ya registrado.
+        if (usuarioRepository.existsByEmail(usuarioDTO.getEmail().trim())) {
+            throw new DuplicateDataException("usuario", "email", usuarioDTO.getEmail().trim());
+        }
+
+        // Si las validaciones pasan, se procede a crear el usuario.
         Usuario usuario = convertirAEntidad(usuarioDTO);
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
         return convertirADTO(usuarioGuardado);
@@ -62,24 +72,19 @@ public class UsuarioService {
     
     public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
         validationService.validarId(id, "usuario"); // Validar ID
-        
-        // Validar que los campos requeridos no estén vacíos
-        if (usuarioDTO.getNombre() == null || usuarioDTO.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre es obligatorio");
-        }
-        if (usuarioDTO.getApellido() == null || usuarioDTO.getApellido().trim().isEmpty()) {
-            throw new IllegalArgumentException("El apellido es obligatorio");
-        }
-        if (usuarioDTO.getEmail() == null || usuarioDTO.getEmail().trim().isEmpty()) {
-            throw new IllegalArgumentException("El email es obligatorio");
-        }
+        validarDatosUsuario(usuarioDTO);
         
         return usuarioRepository.findById(id)
                 .map(usuario -> {
-                    // Aquí se puede agregar lógica de seguridad para verificar propiedad si es necesario
                     usuario.setNombre(usuarioDTO.getNombre().trim());
                     usuario.setApellido(usuarioDTO.getApellido().trim());
-                    // Si se actualiza el email, se necesitaría más validación de unicidad
+
+                    // Validación de email duplicado al actualizar
+                    String nuevoEmail = usuarioDTO.getEmail().trim();
+                    if (!nuevoEmail.equalsIgnoreCase(usuario.getEmail()) && usuarioRepository.existsByEmail(nuevoEmail)) {
+                        throw new DuplicateDataException("usuario", "email", nuevoEmail);
+                    }
+
                     usuario.setEmail(usuarioDTO.getEmail().trim());
                     return convertirADTO(usuarioRepository.save(usuario));
                 })
@@ -87,13 +92,13 @@ public class UsuarioService {
     }
     
     public boolean eliminarUsuario(Long id) {
-        validationService.validarId(id, "usuario"); // Validar ID
-        
-        if (usuarioRepository.existsById(id)) {
-            usuarioRepository.deleteById(id);
-            return true;
+        validationService.validarId(id, "usuario");
+
+        if (!usuarioRepository.existsById(id)) {
+            throw new UsuarioNotFoundException(id);
         }
-        return false;
+        usuarioRepository.deleteById(id);
+        return true; // Se puede mantener o cambiar el método a void
     }
     
     private UsuarioDTO convertirADTO(Usuario usuario) {
@@ -123,17 +128,29 @@ public class UsuarioService {
         
         // Validar contraseña actual usando el encoder
         if (currentPassword != null && !passwordEncoder.matches(currentPassword, usuario.getPassword())) {
-            throw new IllegalArgumentException("La contraseña actual es incorrecta");
+            throw new InvalidPasswordException("La contraseña actual es incorrecta");
         }
         
         // Validar nueva contraseña
         if (newPassword == null || newPassword.trim().length() < 6) {
-            throw new IllegalArgumentException("La nueva contraseña debe tener al menos 6 caracteres");
+            throw new InvalidPasswordException("La nueva contraseña debe tener al menos 6 caracteres");
         }
         
         // Encriptar la nueva contraseña antes de guardarla
         String encodedPassword = passwordEncoder.encode(newPassword);
         usuario.setPassword(encodedPassword);
         usuarioRepository.save(usuario);
+    }
+
+    private void validarDatosUsuario(UsuarioDTO usuarioDTO) {
+        if (usuarioDTO.getNombre() == null || usuarioDTO.getNombre().trim().isEmpty()) {
+            throw new InvalidUserDataException("El nombre es obligatorio");
+        }
+        if (usuarioDTO.getApellido() == null || usuarioDTO.getApellido().trim().isEmpty()) {
+            throw new InvalidUserDataException("El apellido es obligatorio");
+        }
+        if (usuarioDTO.getEmail() == null || usuarioDTO.getEmail().trim().isEmpty()) {
+            throw new InvalidUserDataException("El email es obligatorio");
+        }
     }
 }
