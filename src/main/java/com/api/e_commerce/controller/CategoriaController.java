@@ -61,11 +61,7 @@ public class CategoriaController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {
-        if (categoriaService.eliminarCategoria(id)) {
-            return ResponseEntity.noContent().build();
-        } else {
-             // Si eliminarCategoria devuelve false porque no existe, lanzar excepción
-             throw new com.api.e_commerce.exception.CategoriaNotFoundException(id);
-        }
+        categoriaService.eliminarCategoria(id);
+        return ResponseEntity.noContent().build();
     }
 }

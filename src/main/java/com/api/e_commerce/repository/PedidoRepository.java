@@ -11,6 +11,8 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     List<Pedido> findByUsuario(Usuario usuario);
     
     List<Pedido> findByEstado(String estado);
+
+    List<Pedido> findByUsuarioId(Long usuarioId);
     
     @Query("SELECT p FROM Pedido p JOIN FETCH p.usuario")
     List<Pedido> findAllWithUsuario();

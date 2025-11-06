@@ -29,8 +29,8 @@ public class ArtistaController {
     @GetMapping("/{id}")
     public ResponseEntity<ArtistaDTO> getArtistaById(@PathVariable Long id) {
         return artistaService.getArtistaById(id)
-                .map(artista -> ResponseEntity.ok(artista))
-                .orElse(ResponseEntity.notFound().build());
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
     }
 
     @GetMapping("/buscar")
@@ -42,12 +42,8 @@ public class ArtistaController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public ResponseEntity<ArtistaDTO> crearArtista(@Valid @RequestBody ArtistaCreateDTO artistaCreateDTO) {
-        try {
-            ArtistaDTO nuevoArtista = artistaService.crearArtista(artistaCreateDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoArtista);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        ArtistaDTO nuevoArtista = artistaService.crearArtista(artistaCreateDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoArtista);
     }
 
     @PutMapping("/{id}")
@@ -55,21 +51,15 @@ public class ArtistaController {
     public ResponseEntity<ArtistaDTO> actualizarArtista(
             @PathVariable Long id, 
             @Valid @RequestBody ArtistaUpdateDTO artistaUpdateDTO) {
-        try {
-            return artistaService.actualizarArtista(id, artistaUpdateDTO)
-                    .map(artista -> ResponseEntity.ok(artista))
-                    .orElse(ResponseEntity.notFound().build());
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        return artistaService.actualizarArtista(id, artistaUpdateDTO)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminarArtista(@PathVariable Long id) {
-        if (artistaService.eliminarArtista(id)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+        artistaService.eliminarArtista(id);
+        return ResponseEntity.noContent().build();
     }
 }

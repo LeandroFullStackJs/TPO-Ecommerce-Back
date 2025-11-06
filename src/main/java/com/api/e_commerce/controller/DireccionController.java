@@ -62,9 +62,7 @@ public class DireccionController {
     @DeleteMapping("/{id}")
     @PreAuthorize("isAuthenticated()") 
     public ResponseEntity<Void> eliminarDireccion(@PathVariable Long id) {
-        if (direccionService.eliminarDireccion(id)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build(); // Mantenemos 404 si el servicio devuelve false
+        direccionService.eliminarDireccion(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -4,13 +4,13 @@ import com.api.e_commerce.dto.AuthResponse;
 import com.api.e_commerce.dto.LoginRequest;
 import com.api.e_commerce.dto.RegisterRequest;
 import com.api.e_commerce.exception.DuplicateDataException;
-import com.api.e_commerce.exception.UsuarioNotFoundException;
 import com.api.e_commerce.model.Usuario;
 import com.api.e_commerce.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -80,12 +80,11 @@ public class AuthService implements UserDetailsService {
         validationService.validarTextoNoVacio(request.getPassword(), "password");
         
         // Autenticar al usuario
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
         );
         
-        Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new UsuarioNotFoundException(request.getEmail()));
+        Usuario usuario = (Usuario) authentication.getPrincipal();
         
         String jwt = jwtService.generateToken(usuario);
         
