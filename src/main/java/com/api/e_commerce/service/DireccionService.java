@@ -44,12 +44,11 @@ public class DireccionService {
                 });
     }
     
-    public boolean eliminarDireccion(Long id) {
-        if (direccionRepository.existsById(id)) {
-            direccionRepository.deleteById(id);
-            return true;
+    public void eliminarDireccion(Long id) {
+        if (!direccionRepository.existsById(id)) {
+            throw new com.api.e_commerce.exception.DireccionNotFoundException(id);
         }
-        return false;
+        direccionRepository.deleteById(id);
     }
     
     private DireccionDTO convertirADTO(Direccion direccion) {

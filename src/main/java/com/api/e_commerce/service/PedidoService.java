@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
 @Service
 public class PedidoService {
     
@@ -68,11 +69,9 @@ public class PedidoService {
     
     public List<PedidoDTO> obtenerPedidosPorUsuario(Long usuarioId) {
         // La validación de propiedad ya está en el @PreAuthorize del Controller
-        return usuarioRepository.findById(usuarioId)
-                .map(usuario -> pedidoRepository.findByUsuario(usuario).stream()
+        return pedidoRepository.findByUsuarioId(usuarioId).stream()
                         .map(this::convertirADTO)
-                        .collect(Collectors.toList()))
-                .orElse(List.of());
+                        .collect(Collectors.toList());
     }
     
     public List<PedidoDTO> obtenerPedidosPorEstado(String estado) {
@@ -86,23 +85,16 @@ public class PedidoService {
         // --- ¡FORZAR PROPIEDAD! ---
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuarioActual = (Usuario) authentication.getPrincipal();
-        pedidoDTO.setUsuarioId(usuarioActual.getId()); // Forzamos el ID del usuario logueado
         // --- FIN FORZAR PROPIEDAD ---
 
-        Optional<Usuario> usuario = usuarioRepository.findById(pedidoDTO.getUsuarioId());
+        // Aquí irían validaciones adicionales, ej: validar el estado
+        // validationService.validarValorPermitido(pedidoDTO.getEstado(), "estado", List.of("PENDIENTE")); 
         
-        if (usuario.isPresent()) {
-            // Aquí irían validaciones adicionales, ej: validar el estado
-            // validationService.validarValorPermitido(pedidoDTO.getEstado(), "estado", List.of("PENDIENTE")); 
-            
-            Pedido pedido = convertirAEntidad(pedidoDTO);
-            pedido.setUsuario(usuario.get());
-            pedido.setFecha(LocalDateTime.now());
-            Pedido pedidoGuardado = pedidoRepository.save(pedido);
-            return convertirADTO(pedidoGuardado);
-        }
-        // Esto solo debería ocurrir si el usuario logueado no existe en BD, lo cual es un error grave.
-        throw new RuntimeException("Usuario autenticado no encontrado en la base de datos."); 
+        Pedido pedido = convertirAEntidad(pedidoDTO);
+        pedido.setUsuario(usuarioActual); // Usar el usuario autenticado directamente
+        pedido.setFecha(LocalDateTime.now());
+        Pedido pedidoGuardado = pedidoRepository.save(pedido);
+        return convertirADTO(pedidoGuardado);
     }
     
     public Optional<PedidoDTO> actualizarPedido(Long id, PedidoDTO pedidoDTO) {
@@ -120,13 +112,12 @@ public class PedidoService {
                 });
     }
     
-    public boolean eliminarPedido(Long id) {
+    public void eliminarPedido(Long id) {
         // Acceso ya restringido a ADMIN por el Controller
-        if (pedidoRepository.existsById(id)) {
-            pedidoRepository.deleteById(id);
-            return true;
+        if (!pedidoRepository.existsById(id)) {
+            throw new com.api.e_commerce.exception.PedidoNotFoundException(id);
         }
-        return false;
+        pedidoRepository.deleteById(id);
     }
     
     private PedidoDTO convertirADTO(Pedido pedido) {

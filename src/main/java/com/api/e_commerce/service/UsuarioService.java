@@ -91,14 +91,13 @@ public class UsuarioService {
                 .orElseThrow(() -> new UsuarioNotFoundException(id)); // Lanzar excepción si no se encuentra
     }
     
-    public boolean eliminarUsuario(Long id) {
+    public void eliminarUsuario(Long id) {
         validationService.validarId(id, "usuario");
 
         if (!usuarioRepository.existsById(id)) {
             throw new UsuarioNotFoundException(id);
         }
         usuarioRepository.deleteById(id);
-        return true; // Se puede mantener o cambiar el método a void
     }
     
     private UsuarioDTO convertirADTO(Usuario usuario) {

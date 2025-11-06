@@ -45,12 +45,11 @@ public class CategoriaService {
                 });
     }
     
-    public boolean eliminarCategoria(Long id) {
-        if (categoriaRepository.existsById(id)) {
-            categoriaRepository.deleteById(id);
-            return true;
+    public void eliminarCategoria(Long id) {
+        if (!categoriaRepository.existsById(id)) {
+            throw new com.api.e_commerce.exception.CategoriaNotFoundException(id);
         }
-        return false;
+        categoriaRepository.deleteById(id);
     }
     
     private CategoriaDTO convertirADTO(Categoria categoria) {

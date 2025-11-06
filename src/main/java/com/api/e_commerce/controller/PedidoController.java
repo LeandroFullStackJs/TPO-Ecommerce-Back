@@ -71,11 +71,7 @@ public class PedidoController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminarPedido(@PathVariable Long id) {
-        if (pedidoService.eliminarPedido(id)) {
-            return ResponseEntity.noContent().build();
-        } else {
-             // Si eliminarPedido devuelve false porque no existe, lanzar excepción
-             throw new PedidoNotFoundException(id);
-        }
+        pedidoService.eliminarPedido(id);
+        return ResponseEntity.noContent().build();
     }
 }

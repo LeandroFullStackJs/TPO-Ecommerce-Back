@@ -80,14 +80,13 @@ public class ArtistaService {
         });
     }
 
-    public boolean eliminarArtista(Long id) {
+    public void eliminarArtista(Long id) {
         // Acceso ya restringido a ADMIN por el Controller
-        return artistaRepository.findById(id).map(artista -> {
-            artista.setActivo(false);
-            artista.setFechaActualizacion(LocalDateTime.now());
-            artistaRepository.save(artista);
-            return true;
-        }).orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
+        Artista artista = artistaRepository.findById(id)
+            .orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
+        artista.setActivo(false);
+        artista.setFechaActualizacion(LocalDateTime.now());
+        artistaRepository.save(artista);
     }
 
     public List<ArtistaDTO> buscarArtistas(String nombre) {
