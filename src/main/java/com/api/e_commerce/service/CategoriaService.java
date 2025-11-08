@@ -21,9 +21,10 @@ public class CategoriaService {
                 .collect(Collectors.toList());
     }
     
-    public Optional<CategoriaDTO> obtenerCategoriaPorId(Long id) {
+    public CategoriaDTO obtenerCategoriaPorId(Long id) {
         return categoriaRepository.findById(id)
-                .map(this::convertirADTO);
+                .map(this::convertirADTO)
+                .orElseThrow(() -> new com.api.e_commerce.exception.CategoriaNotFoundException("No se encontró la categoría con id: " + id));
     }
     
     public Optional<CategoriaDTO> obtenerCategoriaPorNombre(String nombre) {

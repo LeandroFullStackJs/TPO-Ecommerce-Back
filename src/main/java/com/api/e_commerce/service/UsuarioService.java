@@ -42,10 +42,11 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UsuarioDTO> obtenerUsuarioPorId(Long id) {
+    public UsuarioDTO obtenerUsuarioPorId(Long id) {
         validationService.validarId(id, "usuario"); // Validar ID
         return usuarioRepository.findById(id)
-                .map(this::convertirADTO);
+                .map(this::convertirADTO)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
     }
 
     //saveUsuario

@@ -27,11 +27,12 @@ public class ArtistaService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<ArtistaDTO> getArtistaById(Long id) {
+    public ArtistaDTO getArtistaById(Long id) {
         validationService.validarId(id, "artista");
         return artistaRepository.findById(id)
                 .filter(artista -> artista.getActivo())
-                .map(this::convertirADTO);
+                .map(this::convertirADTO)
+                .orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
     }
 
     public ArtistaDTO crearArtista(ArtistaCreateDTO artistaCreateDTO) {

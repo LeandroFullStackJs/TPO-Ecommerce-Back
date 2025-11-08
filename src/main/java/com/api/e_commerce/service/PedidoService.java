@@ -42,16 +42,12 @@ public class PedidoService {
                 .collect(Collectors.toList());
     }
     
-    public Optional<PedidoDTO> obtenerPedidoPorId(Long id) {
+    public PedidoDTO obtenerPedidoPorId(Long id) {
         // La validación de ID no es necesaria si se hace en el Controller, pero la dejamos para robustez
         // validationService.validarId(id, "pedido"); 
 
-        Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
-        if (pedidoOpt.isEmpty()) {
-            return Optional.empty(); // Retorna 404
-        }
-        
-        Pedido pedido = pedidoOpt.get();
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new com.api.e_commerce.exception.PedidoNotFoundException("No se encontró el pedido con id: " + id));
         
         // --- ¡VERIFICAR PROPIEDAD! ---
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,7 +59,7 @@ public class PedidoService {
         }
         // --- FIN VERIFICACIÓN DE PROPIEDAD ---
 
-        return Optional.of(convertirADTO(pedido));
+        return convertirADTO(pedido);
     }
     
     public List<PedidoDTO> obtenerPedidosPorUsuario(Long usuarioId) {
