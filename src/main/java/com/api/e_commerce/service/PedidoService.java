@@ -116,13 +116,12 @@ public class PedidoService {
                 });
     }
     
-    public boolean eliminarPedido(Long id) {
+    public void eliminarPedido(Long id) {
         // Acceso ya restringido a ADMIN por el Controller
-        if (pedidoRepository.existsById(id)) {
-            pedidoRepository.deleteById(id);
-            return true;
+        if (!pedidoRepository.existsById(id)) {
+            throw new com.api.e_commerce.exception.PedidoNotFoundException("No se encontró el pedido con id: " + id);
         }
-        return false;
+        pedidoRepository.deleteById(id);
     }
     
     private PedidoDTO convertirADTO(Pedido pedido) {

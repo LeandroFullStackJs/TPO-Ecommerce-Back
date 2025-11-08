@@ -28,10 +28,8 @@ public class CategoriaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<CategoriaDTO> obtenerCategoriaPorId(@PathVariable Long id) {
-        // Dejamos que el service lance CategoriaNotFoundException si no existe
-        Optional<CategoriaDTO> categoria = categoriaService.obtenerCategoriaPorId(id);
-        return categoria.map(ResponseEntity::ok)
-                .orElseThrow(() -> new com.api.e_commerce.exception.CategoriaNotFoundException(id)); // Lanzar excepción para 404
+        CategoriaDTO categoria = categoriaService.obtenerCategoriaPorId(id);
+        return ResponseEntity.ok(categoria);
     }
 
     @GetMapping("/nombre/{nombre}")
@@ -52,20 +50,15 @@ public class CategoriaController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<CategoriaDTO> actualizarCategoria(@PathVariable Long id, @Valid @RequestBody CategoriaDTO categoriaDTO) {
-        // Dejamos que el service lance CategoriaNotFoundException si no existe
-        Optional<CategoriaDTO> categoriaActualizada = categoriaService.actualizarCategoria(id, categoriaDTO);
-        return categoriaActualizada.map(ResponseEntity::ok)
-                 .orElseThrow(() -> new com.api.e_commerce.exception.CategoriaNotFoundException(id)); // Lanzar excepción para 404
+        CategoriaDTO categoriaActualizada = categoriaService.actualizarCategoria(id, categoriaDTO);
+        return ResponseEntity.ok(categoriaActualizada);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminarCategoria(@PathVariable Long id) {
-        if (categoriaService.eliminarCategoria(id)) {
-            return ResponseEntity.noContent().build();
-        } else {
-             // Si eliminarCategoria devuelve false porque no existe, lanzar excepción
-             throw new com.api.e_commerce.exception.CategoriaNotFoundException(id);
-        }
+        // El servicio ahora lanza la excepción si no encuentra la categoría
+        categoriaService.eliminarCategoria(id);
+        return ResponseEntity.noContent().build();
     }
 }

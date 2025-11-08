@@ -29,9 +29,8 @@ public class DemoExceptionController {
     public ResponseEntity<ProductoDTO> demoProductoNoEncontrado(@PathVariable Long id) {
         // Esto lanzará ProductoNotFoundException si el ID no existe
         // El GlobalExceptionHandler lo convertirá en una respuesta JSON estructurada
-        return productoService.getProductoById(id)
-                .map(ResponseEntity::ok)
-                .orElseThrow(() -> new com.api.e_commerce.exception.ProductoNotFoundException(id));
+        ProductoDTO producto = productoService.getProductoById(id);
+        return ResponseEntity.ok(producto);
     }
 
     /**

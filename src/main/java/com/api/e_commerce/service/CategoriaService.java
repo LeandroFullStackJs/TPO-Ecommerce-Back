@@ -3,6 +3,7 @@ package com.api.e_commerce.service;
 import com.api.e_commerce.dto.CategoriaDTO;
 import com.api.e_commerce.model.Categoria;
 import com.api.e_commerce.repository.CategoriaRepository;
+import com.api.e_commerce.exception.CategoriaNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -24,7 +25,7 @@ public class CategoriaService {
     public CategoriaDTO obtenerCategoriaPorId(Long id) {
         return categoriaRepository.findById(id)
                 .map(this::convertirADTO)
-                .orElseThrow(() -> new com.api.e_commerce.exception.CategoriaNotFoundException("No se encontró la categoría con id: " + id));
+                .orElseThrow(() -> new CategoriaNotFoundException("No se encontró la categoría con id: " + id));
     }
     
     public Optional<CategoriaDTO> obtenerCategoriaPorNombre(String nombre) {
@@ -38,20 +39,20 @@ public class CategoriaService {
         return convertirADTO(categoriaGuardada);
     }
     
-    public Optional<CategoriaDTO> actualizarCategoria(Long id, CategoriaDTO categoriaDTO) {
+    public CategoriaDTO actualizarCategoria(Long id, CategoriaDTO categoriaDTO) {
         return categoriaRepository.findById(id)
                 .map(categoria -> {
                     categoria.setNombre(categoriaDTO.getNombre());
                     return convertirADTO(categoriaRepository.save(categoria));
-                });
+                })
+                .orElseThrow(() -> new CategoriaNotFoundException("No se encontró la categoría con id: " + id));
     }
     
-    public boolean eliminarCategoria(Long id) {
-        if (categoriaRepository.existsById(id)) {
-            categoriaRepository.deleteById(id);
-            return true;
+    public void eliminarCategoria(Long id) {
+        if (!categoriaRepository.existsById(id)) {
+            throw new CategoriaNotFoundException("No se encontró la categoría con id: " + id);
         }
-        return false;
+        categoriaRepository.deleteById(id);
     }
     
     private CategoriaDTO convertirADTO(Categoria categoria) {

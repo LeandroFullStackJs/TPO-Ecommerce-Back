@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.*;
@@ -123,14 +124,11 @@ public class UsuarioService {
                 .orElseThrow(() -> new UsuarioNotFoundException(id));
         
         // Validar contraseña actual usando el encoder
-        if (currentPassword != null && !passwordEncoder.matches(currentPassword, usuario.getPassword())) {
-            throw new IllegalArgumentException("La contraseña actual es incorrecta");
+        if (!passwordEncoder.matches(currentPassword, usuario.getPassword())) {
+            throw new BadCredentialsException("La contraseña actual es incorrecta");
         }
         
-        // Validar nueva contraseña
-        if (newPassword == null || newPassword.trim().length() < 6) {
-            throw new IllegalArgumentException("La nueva contraseña debe tener al menos 6 caracteres");
-        }
+        validationService.validarPassword(newPassword);
         
         // Encriptar la nueva contraseña antes de guardarla
         String encodedPassword = passwordEncoder.encode(newPassword);
