@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.*;
 import com.api.e_commerce.dto.UsuarioDTO;
 import com.api.e_commerce.model.Usuario;
 import com.api.e_commerce.repository.UsuarioRepository;
+import com.api.e_commerce.exception.DuplicateDataException;
 import com.api.e_commerce.exception.UsuarioNotFoundException; // IMPORTANTE
 
 @Service
@@ -63,24 +64,24 @@ public class UsuarioService {
     public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
         validationService.validarId(id, "usuario"); // Validar ID
         
-        // Validar que los campos requeridos no estén vacíos
-        if (usuarioDTO.getNombre() == null || usuarioDTO.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre es obligatorio");
-        }
-        if (usuarioDTO.getApellido() == null || usuarioDTO.getApellido().trim().isEmpty()) {
-            throw new IllegalArgumentException("El apellido es obligatorio");
-        }
-        if (usuarioDTO.getEmail() == null || usuarioDTO.getEmail().trim().isEmpty()) {
-            throw new IllegalArgumentException("El email es obligatorio");
-        }
+        // Usar ValidationService para centralizar las validaciones
+        validationService.validarTextoNoVacio(usuarioDTO.getNombre(), "nombre");
+        validationService.validarTextoNoVacio(usuarioDTO.getApellido(), "apellido");
+        validationService.validarEmail(usuarioDTO.getEmail());
         
         return usuarioRepository.findById(id)
                 .map(usuario -> {
-                    // Aquí se puede agregar lógica de seguridad para verificar propiedad si es necesario
+                    // Verificar si el email ha cambiado y si el nuevo ya existe
+                    String nuevoEmail = usuarioDTO.getEmail().trim();
+                    if (!usuario.getEmail().equalsIgnoreCase(nuevoEmail)) {
+                        if (usuarioRepository.existsByEmail(nuevoEmail)) {
+                            throw new DuplicateDataException("usuario", "email", nuevoEmail);
+                        }
+                        usuario.setEmail(nuevoEmail);
+                    }
+
                     usuario.setNombre(usuarioDTO.getNombre().trim());
                     usuario.setApellido(usuarioDTO.getApellido().trim());
-                    // Si se actualiza el email, se necesitaría más validación de unicidad
-                    usuario.setEmail(usuarioDTO.getEmail().trim());
                     return convertirADTO(usuarioRepository.save(usuario));
                 })
                 .orElseThrow(() -> new UsuarioNotFoundException(id)); // Lanzar excepción si no se encuentra
