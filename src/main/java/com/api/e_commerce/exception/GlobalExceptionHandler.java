@@ -127,12 +127,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> manejarStockInsuficiente(
             InsufficientStockException ex, WebRequest request) {
         logger.warn("Stock insuficiente: {}", ex.getMessage());
-        
+
+        // Usamos el nuevo constructor que acepta Object para los detalles
         ErrorResponse errorResponse = new ErrorResponse(
             HttpStatus.BAD_REQUEST.value(),
             "Stock Insuficiente",
             ex.getMessage(),
-            request.getDescription(false).replace("uri=", "")
+            request.getDescription(false).replace("uri=", ""),
+            ex.getDetails() // Añadimos los detalles estructurados
         );
         
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);

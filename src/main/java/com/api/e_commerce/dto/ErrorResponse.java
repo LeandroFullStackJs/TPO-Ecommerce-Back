@@ -3,10 +3,12 @@ package com.api.e_commerce.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * DTO para respuestas de error estandarizadas
  */
+@JsonInclude(JsonInclude.Include.NON_NULL) // No incluirá campos nulos en el JSON
 public class ErrorResponse {
     
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -16,7 +18,7 @@ public class ErrorResponse {
     private String error;
     private String message;
     private String path;
-    private List<String> details;
+    private Object details; // <-- CAMBIO CLAVE: De List<String> a Object
 
     public ErrorResponse() {
         this.timestamp = LocalDateTime.now();
@@ -31,6 +33,12 @@ public class ErrorResponse {
     }
 
     public ErrorResponse(int status, String error, String message, String path, List<String> details) {
+        this(status, error, message, path);
+        this.details = details;
+    }
+
+    // Nuevo constructor para detalles de tipo Object
+    public ErrorResponse(int status, String error, String message, String path, Object details) {
         this(status, error, message, path);
         this.details = details;
     }

@@ -191,8 +191,12 @@ public class ProductoService {
         return productoRepository.findById(id)
             .map(producto -> {
                 if (producto.getStock() < cantidad) {
+                    // Usamos el constructor enriquecido para incluir todos los detalles
                     throw new com.api.e_commerce.exception.InsufficientStockException(
-                        "Stock insuficiente. Stock actual: " + producto.getStock() + ", solicitado: " + cantidad);
+                        producto.getId(),
+                        producto.getNombreObra(),
+                        producto.getStock(),
+                        cantidad);
                 }
                 
                 producto.setStock(producto.getStock() - cantidad);

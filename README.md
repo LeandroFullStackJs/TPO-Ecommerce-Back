@@ -1,19 +1,77 @@
-# 🛒 E-Commerce Backend API
+# 🎨 E-Commerce de Arte - Backend API
 
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen.svg)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.7-brightgreen.svg)
 ![Java](https://img.shields.io/badge/Java-17-orange.svg)
-![MySQL](https://img.shields.io/badge/MySQL-5.5+-blue.svg)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-blue.svg)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)
 ![Maven](https://img.shields.io/badge/Maven-3.6+-red.svg)
 ![JWT](https://img.shields.io/badge/JWT-Security-yellow.svg)
 
-Una API REST completa para un sistema de e-commerce construida con **Spring Boot**, que incluye autenticación JWT, gestión de productos, usuarios, pedidos y un sistema robusto de manejo de excepciones.
+Una API REST completa para un **E-Commerce de Arte** construida con **Spring Boot**, que incluye autenticación JWT, gestión de obras de arte, artistas, categorías, usuarios, pedidos y un sistema robusto de manejo de excepciones.
+
+## ✨ Características Principales
+
+- 🎨 **Gestión completa de obras de arte** con imágenes, artistas y categorías
+- 🔐 **Autenticación JWT** con roles de usuario (ADMIN/USER)
+- � **Docker Ready** - Configuración completa con Docker Compose
+- 🗃️ **Base de datos completa** con datos de prueba incluidos
+- 🌐 **CORS configurado** para desarrollo frontend
+- 📦 **Stock management** para control de inventario
+- 🔄 **Proxy de imágenes** integrado
+- 📊 **Productos destacados** y filtros por categorías
+- 🛡️ **Manejo robusto de excepciones** y validaciones
+
+## 🛠️ Tecnologías
+
+- **Java 17**
+- **Spring Boot 3.5.7**
+- **Spring Security + JWT**
+- **Spring Data JPA**
+- **MySQL 8.0**
+- **Docker & Docker Compose**
+- **Maven**
+- **Hibernate**
+
+## � Inicio Rápido
+
+### Prerrequisitos
+- **Docker Desktop** instalado y ejecutándose
+- **Git** para clonar el repositorio
+
+### 1. Clonar el Repositorio
+```bash
+git clone https://github.com/LeandroFullStackJs/TPO-Ecommerce-Back.git
+cd TPO-Ecommerce-Back
+```
+
+### 2. Levantar con Docker (Recomendado)
+```powershell
+# Script automático de inicio
+.\inicio-rapido.ps1
+
+# O manualmente:
+docker-compose up -d
+```
+
+### 3. Cargar Datos de Prueba
+```powershell
+# Script automático para cargar datos
+.\cargar-datos.ps1
+```
+
+### 4. Verificar Funcionamiento
+```bash
+# Probar API
+curl http://localhost:8080/api/productos
+
+# Ver productos destacados
+curl http://localhost:8080/api/productos/destacados
+```
 
 ## 📋 Tabla de Contenidos
 
-- [🚀 Características](#-características)
+- [🚀 Características](#-características-principales)
 - [🛠️ Tecnologías](#️-tecnologías)
-- [📦 Instalación](#-instalación)
-- [⚙️ Configuración](#️-configuración)
 - [🔌 Endpoints de la API](#-endpoints-de-la-api)
 - [🛡️ Seguridad](#️-seguridad)
 - [🎯 Testing](#-testing)
@@ -57,9 +115,41 @@ Una API REST completa para un sistema de e-commerce construida con **Spring Boot
 | **Maven** | 3.6+ | Gestión de dependencias |
 | **Hibernate** | 6.x | ORM |
 
-## 📦 Instalación
+## 🎨 Datos de Prueba Incluidos
 
-### Prerrequisitos
+El proyecto incluye un conjunto completo de datos de prueba para un e-commerce de arte:
+
+### � Contenido de la Base de Datos:
+- **8 Categorías** de arte (Pintura, Escultura, Fotografía, Arte Digital, etc.)
+- **5 Artistas** con biografías completas e imágenes de perfil
+- **11 Obras de arte** con descripciones detalladas, precios e imágenes
+- **2 Usuarios** de prueba (Admin y Usuario regular)
+- **6 Productos destacados** para la página principal
+
+### 🔐 Usuarios de Prueba:
+```json
+{
+  "admin": {
+    "email": "admin@arte.com",
+    "password": "Admin123@",
+    "role": "ADMIN"
+  },
+  "usuario": {
+    "email": "galeria@arte.com",
+    "password": "Admin123@", 
+    "role": "USER"
+  }
+}
+```
+
+### 🎯 Ejemplos de Productos:
+- **"Sinfonía de Colores"** - Carlos Mendoza - $1,500 (Destacado)
+- **"Formas en Movimiento"** - Carlos Mendoza - $3,500 (Escultura)
+- **"Melodía Visual"** - María García - $2,200 (Expresionista)
+- **"Visiones Digitales"** - Diego Silva - $1,200 (Arte Digital)
+- Y más...
+
+## 📦 Instalación
 - ☕ Java 17 o superior
 - 🐬 MySQL 5.5 o superior
 - 📦 Maven 3.6 o superior

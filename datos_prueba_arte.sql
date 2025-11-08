@@ -70,7 +70,7 @@ INSERT INTO productos (nombre_obra, descripcion, precio, stock, imagen, activo, 
 -- Productos del db.json adaptados
 ('Sueño de Paisaje', 'Paisaje onírico que captura la esencia de la naturaleza en un momento de tranquilidad absoluta. Pintura al óleo.', 
  40000.00, 1, 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center', 
- true, true, 'Carlos Mendoza', 2, 1, 'Óleo', '70x50 cm', 2023, null, NOW(), NOW()),
+ true, true, 'Carlos Mendoza', 2, 1, 'Óleo', '70x50 cm', 2023, 'Paisajista', NOW(), NOW()),
 
 ('Sinfonía Geométrica', 'Composición geométrica que explora la armonía entre líneas, ángulos y espacios negativos.', 
  41000.00, 2, 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800&h=600&fit=crop&crop=center', 

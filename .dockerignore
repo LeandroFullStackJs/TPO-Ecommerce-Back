@@ -1,0 +1,29 @@
+# Ignorar archivos innecesarios para Docker
+.git
+.gitignore
+README*.md
+*.md
+.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+mvnw
+mvnw.cmd
+
+# Archivos de desarrollo
+*.ps1
+*.sh
+.vscode/
+.idea/
+*.iml
+
+# Logs y temporales
+logs/
+*.log
+*.tmp
+
+# Base de datos local
+*.db
+*.sqlite
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
