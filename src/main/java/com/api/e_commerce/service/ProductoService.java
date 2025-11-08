@@ -1,5 +1,6 @@
 package com.api.e_commerce.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -79,42 +80,71 @@ public class ProductoService {
                 .map(productoMapper::toDTO);
     }
 
-    // --- MÉTODO PARA CREAR PRODUCTO (FUERZA PROPIEDAD) ---
-    public ProductoDTO crearProducto(ProductoCreateDTO productoCreateDTO) {
-        // Validaciones de negocio
-        validationService.validarTextoNoVacio(productoCreateDTO.getNombre(), "nombre");
-        validationService.validarPrecio(productoCreateDTO.getPrecio());
-        validationService.validarStock(productoCreateDTO.getStock());
-        
-        if (productoCreateDTO.getAnio() != null) {
-            validationService.validarAnio(productoCreateDTO.getAnio());
-        }
-        
-        Producto producto = productoMapper.fromCreateDTO(productoCreateDTO);
-        producto.setFechaCreacion(LocalDateTime.now());
-        producto.setFechaActualizacion(LocalDateTime.now());
+// --- MÉTODO PARA CREAR PRODUCTO (CON VALIDACIÓN DETALLADA) ---
+public ProductoDTO crearProducto(ProductoCreateDTO productoCreateDTO) {
+    List<String> errores = new ArrayList<>();
 
-        // --- ¡FORZAR PROPIEDAD! El creador es el usuario autenticado ---
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Usuario usuarioActual = (Usuario) authentication.getPrincipal();
-        producto.setUsuarioCreador(usuarioActual); // Usar la relación en lugar del ID
-        // --- FIN FORZAR PROPIEDAD ---
-        
-        // Asociar categorías
-        if (productoCreateDTO.getCategoriaIds() != null && !productoCreateDTO.getCategoriaIds().isEmpty()) {
-            List<Categoria> categorias = categoriaRepository.findAllById(productoCreateDTO.getCategoriaIds());
-            
-            // Verificar que todas las categorías existen
-            if (categorias.size() != productoCreateDTO.getCategoriaIds().size()) {
-                throw new CategoriaNotFoundException("Una o más categorías no fueron encontradas");
-            }
-            
-            producto.setCategorias(categorias);
-        }
-        
-        Producto productoGuardado = productoRepository.save(producto);
-        return productoMapper.toDTO(productoGuardado);
+    // Validaciones de negocio — recolectamos los errores en lugar de lanzar uno por uno
+    try {
+        validationService.validarTextoNoVacio(productoCreateDTO.getNombre(), "nombre");
+    } catch (IllegalArgumentException e) {
+        errores.add("nombre: " + e.getMessage());
     }
+
+    try {
+        validationService.validarPrecio(productoCreateDTO.getPrecio());
+    } catch (IllegalArgumentException e) {
+        errores.add("precio: " + e.getMessage());
+    }
+
+    try {
+        validationService.validarStock(productoCreateDTO.getStock());
+    } catch (IllegalArgumentException e) {
+        errores.add("stock: " + e.getMessage());
+    }
+
+    if (productoCreateDTO.getAnio() != null) {
+        try {
+            validationService.validarAnio(productoCreateDTO.getAnio());
+        } catch (IllegalArgumentException e) {
+            errores.add("anio: " + e.getMessage());
+        }
+    }
+
+    // Si hubo errores, lanzamos una excepción con todos los detalles
+    if (!errores.isEmpty()) {
+        throw new ProductoNotFoundException(
+            "Faltan campos obligatorios o algunos valores son inválidos.",
+            errores
+        );
+    }
+
+    // Mapeo del DTO a entidad
+    Producto producto = productoMapper.fromCreateDTO(productoCreateDTO);
+    producto.setFechaCreacion(LocalDateTime.now());
+    producto.setFechaActualizacion(LocalDateTime.now());
+
+    // --- FORZAR PROPIEDAD: el creador es el usuario autenticado ---
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    Usuario usuarioActual = (Usuario) authentication.getPrincipal();
+    producto.setUsuarioCreador(usuarioActual);
+    // --- FIN FORZAR PROPIEDAD ---
+
+    // --- Asociar categorías ---
+    if (productoCreateDTO.getCategoriaIds() != null && !productoCreateDTO.getCategoriaIds().isEmpty()) {
+        List<Categoria> categorias = categoriaRepository.findAllById(productoCreateDTO.getCategoriaIds());
+
+        if (categorias.size() != productoCreateDTO.getCategoriaIds().size()) {
+            throw new CategoriaNotFoundException("Una o más categorías no fueron encontradas");
+        }
+
+        producto.setCategorias(categorias);
+    }
+
+    Producto productoGuardado = productoRepository.save(producto);
+    return productoMapper.toDTO(productoGuardado);
+}
+
 
     // --- MÉTODO PARA ELIMINAR PRODUCTO (VERIFICA PROPIEDAD) ---
     public void deleteProducto(Long id) {

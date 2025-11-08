@@ -45,6 +45,10 @@ public class Producto {
     // Campos adicionales para el frontend
     @Column(nullable = false)
     private String imagen; // URL de la imagen principal
+
+    // Token único para identificar el producto (se genera en prePersist si está vacío)
+    @Column(unique = true, nullable = false, updatable = false)
+    private String token;
       
     private Boolean activo = true;
     
@@ -80,9 +84,6 @@ public class Producto {
     @Column(nullable = false)
     private String estilo; // style - Estilo artístico (opcional)
     
-    // Token único y seguro para cada producto
-    @Column(name = "token", unique = true, updatable = false, nullable = false, length = 64)
-    private String token;
 
     // Relación Many-to-Many con Categorías con configuración optimizada
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
