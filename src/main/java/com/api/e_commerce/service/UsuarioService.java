@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.*;
 import com.api.e_commerce.dto.UsuarioDTO;
 import com.api.e_commerce.model.Usuario;
 import com.api.e_commerce.repository.UsuarioRepository;
+import com.api.e_commerce.exception.DuplicateDataException;
 import com.api.e_commerce.exception.UsuarioNotFoundException; // IMPORTANTE
 
 @Service
@@ -41,10 +43,11 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UsuarioDTO> obtenerUsuarioPorId(Long id) {
+    public UsuarioDTO obtenerUsuarioPorId(Long id) {
         validationService.validarId(id, "usuario"); // Validar ID
         return usuarioRepository.findById(id)
-                .map(this::convertirADTO);
+                .map(this::convertirADTO)
+                .orElseThrow(() -> new UsuarioNotFoundException(id));
     }
 
     //saveUsuario
@@ -63,37 +66,36 @@ public class UsuarioService {
     public UsuarioDTO actualizarUsuario(Long id, UsuarioDTO usuarioDTO) {
         validationService.validarId(id, "usuario"); // Validar ID
         
-        // Validar que los campos requeridos no estén vacíos
-        if (usuarioDTO.getNombre() == null || usuarioDTO.getNombre().trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre es obligatorio");
-        }
-        if (usuarioDTO.getApellido() == null || usuarioDTO.getApellido().trim().isEmpty()) {
-            throw new IllegalArgumentException("El apellido es obligatorio");
-        }
-        if (usuarioDTO.getEmail() == null || usuarioDTO.getEmail().trim().isEmpty()) {
-            throw new IllegalArgumentException("El email es obligatorio");
-        }
+        // Usar ValidationService para centralizar las validaciones
+        validationService.validarTextoNoVacio(usuarioDTO.getNombre(), "nombre");
+        validationService.validarTextoNoVacio(usuarioDTO.getApellido(), "apellido");
+        validationService.validarEmail(usuarioDTO.getEmail());
         
         return usuarioRepository.findById(id)
                 .map(usuario -> {
-                    // Aquí se puede agregar lógica de seguridad para verificar propiedad si es necesario
+                    // Verificar si el email ha cambiado y si el nuevo ya existe
+                    String nuevoEmail = usuarioDTO.getEmail().trim();
+                    if (!usuario.getEmail().equalsIgnoreCase(nuevoEmail)) {
+                        if (usuarioRepository.existsByEmail(nuevoEmail)) {
+                            throw new DuplicateDataException("usuario", "email", nuevoEmail);
+                        }
+                        usuario.setEmail(nuevoEmail);
+                    }
+
                     usuario.setNombre(usuarioDTO.getNombre().trim());
                     usuario.setApellido(usuarioDTO.getApellido().trim());
-                    // Si se actualiza el email, se necesitaría más validación de unicidad
-                    usuario.setEmail(usuarioDTO.getEmail().trim());
                     return convertirADTO(usuarioRepository.save(usuario));
                 })
                 .orElseThrow(() -> new UsuarioNotFoundException(id)); // Lanzar excepción si no se encuentra
     }
     
-    public boolean eliminarUsuario(Long id) {
+    public void eliminarUsuario(Long id) {
         validationService.validarId(id, "usuario"); // Validar ID
         
-        if (usuarioRepository.existsById(id)) {
-            usuarioRepository.deleteById(id);
-            return true;
+        if (!usuarioRepository.existsById(id)) {
+            throw new UsuarioNotFoundException(id);
         }
-        return false;
+        usuarioRepository.deleteById(id);
     }
     
     private UsuarioDTO convertirADTO(Usuario usuario) {
@@ -122,14 +124,11 @@ public class UsuarioService {
                 .orElseThrow(() -> new UsuarioNotFoundException(id));
         
         // Validar contraseña actual usando el encoder
-        if (currentPassword != null && !passwordEncoder.matches(currentPassword, usuario.getPassword())) {
-            throw new IllegalArgumentException("La contraseña actual es incorrecta");
+        if (!passwordEncoder.matches(currentPassword, usuario.getPassword())) {
+            throw new BadCredentialsException("La contraseña actual es incorrecta");
         }
         
-        // Validar nueva contraseña
-        if (newPassword == null || newPassword.trim().length() < 6) {
-            throw new IllegalArgumentException("La nueva contraseña debe tener al menos 6 caracteres");
-        }
+        validationService.validarPassword(newPassword);
         
         // Encriptar la nueva contraseña antes de guardarla
         String encodedPassword = passwordEncoder.encode(newPassword);

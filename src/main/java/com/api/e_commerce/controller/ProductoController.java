@@ -68,9 +68,8 @@ public class ProductoController {
     @GetMapping("/{id}")
     public ResponseEntity<ProductoDTO> getProductoById(@PathVariable Long id) {
         // Dejamos que el service lance ProductoNotFoundException si no existe
-        Optional<ProductoDTO> producto = productoService.getProductoById(id);
-        return producto.map(ResponseEntity::ok)
-                      .orElseThrow(() -> new ProductoNotFoundException(id)); // Lanzar excepción para 404
+        ProductoDTO producto = productoService.getProductoById(id);
+        return ResponseEntity.ok(producto);
     }
 
     // Crear nuevo producto (Auth - Servicio fuerza propiedad)

@@ -42,16 +42,12 @@ public class PedidoService {
                 .collect(Collectors.toList());
     }
     
-    public Optional<PedidoDTO> obtenerPedidoPorId(Long id) {
+    public PedidoDTO obtenerPedidoPorId(Long id) {
         // La validación de ID no es necesaria si se hace en el Controller, pero la dejamos para robustez
         // validationService.validarId(id, "pedido"); 
 
-        Optional<Pedido> pedidoOpt = pedidoRepository.findById(id);
-        if (pedidoOpt.isEmpty()) {
-            return Optional.empty(); // Retorna 404
-        }
-        
-        Pedido pedido = pedidoOpt.get();
+        Pedido pedido = pedidoRepository.findById(id)
+                .orElseThrow(() -> new com.api.e_commerce.exception.PedidoNotFoundException("No se encontró el pedido con id: " + id));
         
         // --- ¡VERIFICAR PROPIEDAD! ---
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -63,7 +59,7 @@ public class PedidoService {
         }
         // --- FIN VERIFICACIÓN DE PROPIEDAD ---
 
-        return Optional.of(convertirADTO(pedido));
+        return convertirADTO(pedido);
     }
     
     public List<PedidoDTO> obtenerPedidosPorUsuario(Long usuarioId) {
@@ -120,13 +116,12 @@ public class PedidoService {
                 });
     }
     
-    public boolean eliminarPedido(Long id) {
+    public void eliminarPedido(Long id) {
         // Acceso ya restringido a ADMIN por el Controller
-        if (pedidoRepository.existsById(id)) {
-            pedidoRepository.deleteById(id);
-            return true;
+        if (!pedidoRepository.existsById(id)) {
+            throw new com.api.e_commerce.exception.PedidoNotFoundException("No se encontró el pedido con id: " + id);
         }
-        return false;
+        pedidoRepository.deleteById(id);
     }
     
     private PedidoDTO convertirADTO(Pedido pedido) {

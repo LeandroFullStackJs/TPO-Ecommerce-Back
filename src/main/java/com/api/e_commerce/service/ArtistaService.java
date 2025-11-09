@@ -27,11 +27,12 @@ public class ArtistaService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<ArtistaDTO> getArtistaById(Long id) {
+    public ArtistaDTO getArtistaById(Long id) {
         validationService.validarId(id, "artista");
         return artistaRepository.findById(id)
                 .filter(artista -> artista.getActivo())
-                .map(this::convertirADTO);
+                .map(this::convertirADTO)
+                .orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
     }
 
     public ArtistaDTO crearArtista(ArtistaCreateDTO artistaCreateDTO) {
@@ -55,39 +56,36 @@ public class ArtistaService {
         return convertirADTO(artistaGuardado);
     }
 
-    public Optional<ArtistaDTO> actualizarArtista(Long id, ArtistaUpdateDTO artistaUpdateDTO) {
+    public ArtistaDTO actualizarArtista(Long id, ArtistaUpdateDTO artistaUpdateDTO) {
         validationService.validarId(id, "artista");        
-        return artistaRepository.findById(id).map(artista -> {
-            
-            // --- VERIFICACIÓN DE SEGURIDAD (Se asume que la modificación es solo de ADMIN o del artista) ---
-            // Se eliminó la obtención de Authentication porque no se estaba usando.
-            
-            // Validaciones Email
-            if (artistaUpdateDTO.getEmail() != null && !artistaUpdateDTO.getEmail().trim().isEmpty()) {
-                 validationService.validarEmail(artistaUpdateDTO.getEmail());
-                 // Validar email único solo si se está cambiando y el nuevo email ya existe para OTRO artista
-                 if (!artistaUpdateDTO.getEmail().equalsIgnoreCase(artista.getEmail()) &&
-                    artistaRepository.existsByEmailAndIdNot(artistaUpdateDTO.getEmail(), id)) {
-                    throw new com.api.e_commerce.exception.DuplicateDataException("artista", "email", artistaUpdateDTO.getEmail());
-                 }
-            }
+        return artistaRepository.findById(id)
+                .map(artista -> {
+                    // Validaciones Email
+                    if (artistaUpdateDTO.getEmail() != null && !artistaUpdateDTO.getEmail().trim().isEmpty()) {
+                         validationService.validarEmail(artistaUpdateDTO.getEmail());
+                         // Validar email único solo si se está cambiando y el nuevo email ya existe para OTRO artista
+                         if (!artistaUpdateDTO.getEmail().equalsIgnoreCase(artista.getEmail()) &&
+                            artistaRepository.existsByEmailAndIdNot(artistaUpdateDTO.getEmail(), id)) {
+                            throw new com.api.e_commerce.exception.DuplicateDataException("artista", "email", artistaUpdateDTO.getEmail());
+                         }
+                    }
 
-            actualizarCampos(artista, artistaUpdateDTO);
-            artista.setFechaActualizacion(LocalDateTime.now());
-            
-            Artista artistaActualizado = artistaRepository.save(artista);
-            return convertirADTO(artistaActualizado);
-        });
+                    actualizarCampos(artista, artistaUpdateDTO);
+                    artista.setFechaActualizacion(LocalDateTime.now());
+                    
+                    Artista artistaActualizado = artistaRepository.save(artista);
+                    return convertirADTO(artistaActualizado);
+                })
+                .orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
     }
 
-    public boolean eliminarArtista(Long id) {
+    public void eliminarArtista(Long id) {
         // Acceso ya restringido a ADMIN por el Controller
-        return artistaRepository.findById(id).map(artista -> {
+        Artista artista = artistaRepository.findById(id)
+                .orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
             artista.setActivo(false);
             artista.setFechaActualizacion(LocalDateTime.now());
             artistaRepository.save(artista);
-            return true;
-        }).orElseThrow(() -> new com.api.e_commerce.exception.ArtistaNotFoundException(id));
     }
 
     public List<ArtistaDTO> buscarArtistas(String nombre) {

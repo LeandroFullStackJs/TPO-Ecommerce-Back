@@ -74,10 +74,11 @@ public class ProductoService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<ProductoDTO> getProductoById(Long id) {
+    public ProductoDTO getProductoById(Long id) {
         validationService.validarId(id, "producto");
         return productoRepository.findById(id)
-                .map(productoMapper::toDTO);
+                .map(productoMapper::toDTO)
+                .orElseThrow(() -> new ProductoNotFoundException(id));
     }
 
 // --- MÉTODO PARA CREAR PRODUCTO (CON VALIDACIÓN DETALLADA) ---

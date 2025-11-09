@@ -41,9 +41,8 @@ public class UsuarioController {
     @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<UsuarioDTO> obtenerUsuarioPorId(@PathVariable Long id) {
         // Dejamos que el service lance UsuarioNotFoundException si no existe
-        Optional<UsuarioDTO> usuario = usuarioService.obtenerUsuarioPorId(id);
-        return usuario.map(ResponseEntity::ok)
-                .orElseThrow(() -> new UsuarioNotFoundException(id)); // Lanzar excepción para 404
+        UsuarioDTO usuario = usuarioService.obtenerUsuarioPorId(id);
+        return ResponseEntity.ok(usuario);
     }
 
     @PostMapping
@@ -66,23 +65,16 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminarUsuario(@PathVariable Long id) {
-        if (usuarioService.eliminarUsuario(id)) {
-            return ResponseEntity.noContent().build();
-        } else {
-             // Si eliminarUsuario devuelve false porque no existe, lanzar excepción
-             throw new UsuarioNotFoundException(id);
-        }
+        // El servicio ahora lanza la excepción si no encuentra al usuario
+        usuarioService.eliminarUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/password")
     @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<String> cambiarPassword(@PathVariable Long id, @RequestBody PasswordChangeRequest request) {
-        try {
-            usuarioService.cambiarPassword(id, request.getCurrentPassword(), request.getNewPassword());
-            return ResponseEntity.ok("Contraseña actualizada correctamente");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error al cambiar contraseña: " + e.getMessage());
-        }
+        usuarioService.cambiarPassword(id, request.getCurrentPassword(), request.getNewPassword());
+        return ResponseEntity.ok("Contraseña actualizada correctamente");
     }
 
     // Clase interna para el request de cambio de contraseña

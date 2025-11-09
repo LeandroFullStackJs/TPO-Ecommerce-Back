@@ -32,9 +32,8 @@ public class PedidoController {
     @PreAuthorize("isAuthenticated()") // Servicio verifica propiedad
     public ResponseEntity<PedidoDTO> obtenerPedidoPorId(@PathVariable Long id) {
         // Dejamos que el service lance AccessDeniedException o PedidoNotFoundException
-        Optional<PedidoDTO> pedido = pedidoService.obtenerPedidoPorId(id);
-        return pedido.map(ResponseEntity::ok)
-                 .orElseThrow(() -> new PedidoNotFoundException(id)); // Lanzar excepción para 404
+        PedidoDTO pedido = pedidoService.obtenerPedidoPorId(id);
+        return ResponseEntity.ok(pedido);
     }
 
     @GetMapping("/usuario/{usuarioId}")
@@ -71,11 +70,7 @@ public class PedidoController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminarPedido(@PathVariable Long id) {
-        if (pedidoService.eliminarPedido(id)) {
-            return ResponseEntity.noContent().build();
-        } else {
-             // Si eliminarPedido devuelve false porque no existe, lanzar excepción
-             throw new PedidoNotFoundException(id);
-        }
+        pedidoService.eliminarPedido(id);
+        return ResponseEntity.noContent().build();
     }
 }
