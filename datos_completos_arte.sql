@@ -88,7 +88,7 @@ INSERT INTO usuarios (nombre, apellido, email, password, role) VALUES
 INSERT INTO productos (
     nombre_obra, descripcion, precio, stock, imagen, artista, tecnica, 
     dimensiones, anio, estilo, destacado, activo, artista_id, usuario_id,
-    fecha_creacion, fecha_actualizacion
+    token, fecha_creacion, fecha_actualizacion
 ) VALUES
 
 -- Obras de Carlos Mendoza
@@ -98,7 +98,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=400&h=500&fit=crop',
  'Carlos Mendoza', 'Óleo sobre lienzo',
  '80cm x 100cm', 2024, 'Abstracto',
- 1, 1, 1, 1, NOW(), NOW()),
+ 1, 1, 1, 1, 'TOKEN_SINFONIA_001', NOW(), NOW()),
 
 ('Formas en Movimiento',
  'Escultura dinámica que parece cambiar según el ángulo de observación, representando la fluidez del tiempo y la percepción. Una pieza que invita a la contemplación activa.',
@@ -106,7 +106,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1594736797933-d0ca9c65b53c?w=400&h=500&fit=crop',
  'Carlos Mendoza', 'Bronce patinado',
  '150cm x 80cm x 60cm', 2024, 'Contemporáneo',
- 1, 1, 1, 1, NOW(), NOW()),
+ 1, 1, 1, 1, 'TOKEN_FORMAS_002', NOW(), NOW()),
 
 -- Obras de María García
 ('Melodía Visual',
@@ -115,7 +115,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=500&fit=crop',
  'María García', 'Acrílico sobre lienzo',
  '100cm x 120cm', 2023, 'Expresionista',
- 0, 1, 2, 1, NOW(), NOW()),
+ 0, 1, 2, 1, 'TOKEN_MELODIA_003', NOW(), NOW()),
 
 ('Danza de Luces',
  'Una obra que captura el movimiento y la energía de la danza a través de trazos luminosos y colores vibrantes. La técnica mixta permite jugar con texturas y profundidad.',
@@ -123,7 +123,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1536924430914-91f9e2041b83?w=400&h=500&fit=crop',
  'María García', 'Técnica mixta sobre lienzo',
  '90cm x 110cm', 2023, 'Expresionista',
- 1, 1, 2, 1, NOW(), NOW()),
+ 1, 1, 2, 1, 'TOKEN_DANZA_004', NOW(), NOW()),
 
 -- Obras de Ana Rodríguez
 ('Bosque Susurrante',
@@ -132,7 +132,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&h=500&fit=crop',
  'Ana Rodríguez', 'Fotografía digital',
  '60cm x 90cm', 2023, 'Naturalismo',
- 0, 1, 3, 1, NOW(), NOW()),
+ 0, 1, 3, 1, 'TOKEN_BOSQUE_005', NOW(), NOW()),
 
 ('Reflejos del Alma',
  'Fotografía en blanco y negro que captura la esencia humana a través de juegos de luz y sombra. Una exploración profunda de la condición humana.',
@@ -140,7 +140,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&h=500&fit=crop',
  'Ana Rodríguez', 'Fotografía analógica',
  '70cm x 100cm', 2023, 'Documental',
- 0, 1, 3, 1, NOW(), NOW()),
+ 0, 1, 3, 1, 'TOKEN_REFLEJOS_006', NOW(), NOW()),
 
 ('Horizontes Infinitos',
  'Paisaje que captura la inmensidad del horizonte marino al amanecer. La técnica de larga exposición crea un efecto etéreo y contemplativo.',
@@ -148,7 +148,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=500&fit=crop',
  'Ana Rodríguez', 'Fotografía de larga exposición',
  '80cm x 120cm', 2024, 'Paisajismo',
- 1, 1, 3, 1, NOW(), NOW()),
+ 1, 1, 3, 1, 'TOKEN_HORIZONTES_007', NOW(), NOW()),
 
 -- Obras de Diego Silva
 ('Visiones Digitales',
@@ -157,7 +157,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400&h=500&fit=crop',
  'Diego Silva', 'Arte digital',
  '50cm x 70cm (impresión)', 2024, 'Digital',
- 1, 1, 4, 1, NOW(), NOW()),
+ 1, 1, 4, 1, 'TOKEN_VISIONES_008', NOW(), NOW()),
 
 ('Código Poético',
  'Una exploración de la belleza encontrada en algoritmos y código. Esta pieza digital convierte líneas de programación en una experiencia visual poética.',
@@ -165,7 +165,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&h=500&fit=crop',
  'Diego Silva', 'Arte generativo',
  '40cm x 60cm (impresión)', 2024, 'Digital',
- 0, 1, 4, 1, NOW(), NOW()),
+ 0, 1, 4, 1, 'TOKEN_CODIGO_009', NOW(), NOW()),
 
 -- Obras de Elena Vásquez
 ('Memoria Fragmentada',
@@ -174,7 +174,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?w=400&h=500&fit=crop',
  'Elena Vásquez', 'Bronce y acero',
  '120cm x 70cm x 50cm', 2023, 'Contemporáneo',
- 1, 1, 5, 1, NOW(), NOW()),
+ 1, 1, 5, 1, 'TOKEN_MEMORIA_010', NOW(), NOW()),
 
 ('Identidad Fluida',
  'Una obra que cuestiona las nociones fijas de identidad en la era moderna. Materiales mixtos que se transforman según la perspectiva del observador.',
@@ -182,7 +182,7 @@ INSERT INTO productos (
  'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400&h=500&fit=crop',
  'Elena Vásquez', 'Materiales mixtos',
  '100cm x 90cm x 40cm', 2024, 'Conceptual',
- 0, 1, 5, 1, NOW(), NOW());
+ 0, 1, 5, 1, 'TOKEN_IDENTIDAD_011', NOW(), NOW());
 
 -- =====================================================
 -- 5. INSERTAR RELACIONES PRODUCTOS-CATEGORÍAS
