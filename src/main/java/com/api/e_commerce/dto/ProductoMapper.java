@@ -75,18 +75,18 @@ public class ProductoMapper {
         if (createDTO == null) return null;
         
         Producto producto = new Producto();
-        producto.setNombreObra(createDTO.getNombre()); // Usar nombre del DTO
-        producto.setDescripcion(createDTO.getDescripcion());
+        producto.setNombreObra(createDTO.getNombreObra());
+        producto.setDescripcion(createDTO.getDescripcion() != null ? createDTO.getDescripcion() : "Descripción no proporcionada");
         producto.setPrecio(createDTO.getPrecio());
         producto.setStock(createDTO.getStock());
-        producto.setImagen(createDTO.getImagen());
-        producto.setArtista(createDTO.getArtista());
-        producto.setTecnica(createDTO.getTecnica());
-        producto.setDimensiones(createDTO.getDimensiones());
-        producto.setAnio(createDTO.getAnio());
-        producto.setEstilo(createDTO.getEstilo());
-        producto.setDestacado(createDTO.getDestacado());
-        producto.setActivo(createDTO.getActivo());
+        producto.setImagen(createDTO.getImagen() != null ? createDTO.getImagen() : "https://via.placeholder.com/400x500?text=Sin+Imagen");
+        producto.setArtista(createDTO.getArtista() != null ? createDTO.getArtista() : "Artista desconocido");
+        producto.setTecnica(createDTO.getTecnica() != null ? createDTO.getTecnica() : "Técnica no especificada");
+        producto.setDimensiones(createDTO.getDimensiones() != null ? createDTO.getDimensiones() : "Dimensiones no especificadas");
+        producto.setAnio(createDTO.getAnio() != null ? createDTO.getAnio() : java.time.Year.now().getValue());
+        producto.setEstilo(createDTO.getEstilo() != null ? createDTO.getEstilo() : "Estilo no especificado");
+        producto.setDestacado(createDTO.getDestacado() != null ? createDTO.getDestacado() : false);
+        producto.setActivo(createDTO.getActivo() != null ? createDTO.getActivo() : true);
         
         return producto;
     }

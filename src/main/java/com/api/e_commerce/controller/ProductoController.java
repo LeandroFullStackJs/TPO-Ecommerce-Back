@@ -76,10 +76,17 @@ public class ProductoController {
     @PostMapping
     @PreAuthorize("isAuthenticated()") // Cambiado a isAuthenticated() ya que el servicio fuerza el userId
     public ResponseEntity<ProductoDTO> crearProducto(@Valid @RequestBody ProductoCreateDTO productoCreateDTO) {
-        // Se quita el try-catch. Dejamos que el Service lance excepciones (ej: CategoriaNotFound)
-        ProductoDTO producto = productoService.crearProducto(productoCreateDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(producto);
-    }
+        //try {
+          //  System.out.println("🔍 CONTROLLER DEBUG: Recibido ProductoCreateDTO: " + productoCreateDTO.toString());
+            ProductoDTO producto = productoService.crearProducto(productoCreateDTO);
+         //   System.out.println("✅ CONTROLLER DEBUG: Producto creado exitosamente con ID: " + producto.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(producto);
+       // } catch (Exception e) {
+       //     System.err.println("❌ CONTROLLER ERROR: " + e.getClass().getSimpleName() + " - " + e.getMessage());
+        //    e.printStackTrace();
+        //    throw e; // Re-lanzar para que el GlobalExceptionHandler lo maneje
+        }
+//    }
 
     // Actualizar producto (Auth - Servicio verifica propiedad)
     @PutMapping("/{id}")

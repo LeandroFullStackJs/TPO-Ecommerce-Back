@@ -54,7 +54,7 @@ public class ValidationService {
     }
 
     /**
-     * Valida que un stock sea válido (no negativo)
+     * Valida que el stock sea válido (no negativo)
      */
     public void validarStock(Integer stock) {
         if (stock == null) {

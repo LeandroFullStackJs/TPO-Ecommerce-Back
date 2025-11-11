@@ -74,14 +74,12 @@ public class Producto {
     @JoinColumn(name = "usuario_id", foreignKey = @ForeignKey(name = "FK_producto_usuario"))
     private Usuario usuarioCreador;
     
-    @Column(nullable = false)
     private String tecnica; // technique - Óleo, acuarela, acrílico, etc.
     
-    @Column(nullable = false)
     private String dimensiones; // dimensions - "80x60 cm"
-    @Column(nullable = false)
+    
     private Integer anio; // year - Año de creación
-    @Column(nullable = false)
+    
     private String estilo; // style - Estilo artístico (opcional)
     
 

@@ -1,8 +1,6 @@
 package com.api.e_commerce.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.time.LocalDateTime;
 
@@ -81,54 +79,43 @@ public class ProductoService {
                 .orElseThrow(() -> new ProductoNotFoundException(id));
     }
 
-// --- MÉTODO PARA CREAR PRODUCTO (CON VALIDACIÓN DETALLADA) ---
+// --- MÉTODO PARA CREAR PRODUCTO (CON VALIDACIÓN RELAJADA) ---
 public ProductoDTO crearProducto(ProductoCreateDTO productoCreateDTO) {
-    List<String> errores = new ArrayList<>();
-
-    // Validaciones de negocio — recolectamos los errores en lugar de lanzar uno por uno
-    try {
-        validationService.validarTextoNoVacio(productoCreateDTO.getNombre(), "nombre");
-    } catch (IllegalArgumentException e) {
-        errores.add("nombre: " + e.getMessage());
+    System.out.println("🔍 DEBUG: Creando producto con datos:");
+    System.out.println("  - NombreObra: " + productoCreateDTO.getNombreObra());
+    System.out.println("  - Precio: " + productoCreateDTO.getPrecio());
+    System.out.println("  - Stock: " + productoCreateDTO.getStock());
+    System.out.println("  - Imagen: " + productoCreateDTO.getImagen());
+    System.out.println("  - Artista: " + productoCreateDTO.getArtista());
+    System.out.println("  - Técnica: " + productoCreateDTO.getTecnica());
+    System.out.println("  - Dimensiones: " + productoCreateDTO.getDimensiones());
+    System.out.println("  - Año: " + productoCreateDTO.getAnio());
+    System.out.println("  - Estilo: " + productoCreateDTO.getEstilo());
+    
+    // Validaciones esenciales
+    validationService.validarTextoNoVacio(productoCreateDTO.getNombreObra(), "nombre de obra");
+    validationService.validarPrecio(productoCreateDTO.getPrecio());
+    validationService.validarStock(productoCreateDTO.getStock());
+    
+    // Validaciones opcionales
+    if (productoCreateDTO.getAnio() != null && productoCreateDTO.getAnio() > 0) {
+        validationService.validarAnio(productoCreateDTO.getAnio());
     }
-
-    try {
-        validationService.validarPrecio(productoCreateDTO.getPrecio());
-    } catch (IllegalArgumentException e) {
-        errores.add("precio: " + e.getMessage());
-    }
-
-    try {
-        validationService.validarStock(productoCreateDTO.getStock());
-    } catch (IllegalArgumentException e) {
-        errores.add("stock: " + e.getMessage());
-    }
-
-    if (productoCreateDTO.getAnio() != null) {
-        try {
-            validationService.validarAnio(productoCreateDTO.getAnio());
-        } catch (IllegalArgumentException e) {
-            errores.add("anio: " + e.getMessage());
-        }
-    }
-
-    // Si hubo errores, lanzamos una excepción con todos los detalles
-    if (!errores.isEmpty()) {
-        throw new ProductoNotFoundException(
-            "Faltan campos obligatorios o algunos valores son inválidos.",
-            errores
-        );
-    }
+    
+    System.out.println("✅ DEBUG: Validaciones básicas pasadas correctamente");
 
     // Mapeo del DTO a entidad
     Producto producto = productoMapper.fromCreateDTO(productoCreateDTO);
     producto.setFechaCreacion(LocalDateTime.now());
     producto.setFechaActualizacion(LocalDateTime.now());
+    
+    System.out.println("🔍 DEBUG: Producto mapeado - Token antes de save: " + producto.getToken());
 
     // --- FORZAR PROPIEDAD: el creador es el usuario autenticado ---
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     Usuario usuarioActual = (Usuario) authentication.getPrincipal();
     producto.setUsuarioCreador(usuarioActual);
+    System.out.println("🔍 DEBUG: Usuario creador asignado: " + usuarioActual.getEmail());
     // --- FIN FORZAR PROPIEDAD ---
 
     // --- Asociar categorías ---
@@ -140,10 +127,19 @@ public ProductoDTO crearProducto(ProductoCreateDTO productoCreateDTO) {
         }
 
         producto.setCategorias(categorias);
+        System.out.println("🔍 DEBUG: Categorías asignadas: " + categorias.size());
     }
 
-    Producto productoGuardado = productoRepository.save(producto);
-    return productoMapper.toDTO(productoGuardado);
+    System.out.println("🔍 DEBUG: Intentando guardar producto...");
+    try {
+        Producto productoGuardado = productoRepository.save(producto);
+        System.out.println("✅ DEBUG: Producto guardado exitosamente con ID: " + productoGuardado.getId());
+        return productoMapper.toDTO(productoGuardado);
+    } catch (Exception e) {
+        System.out.println("❌ DEBUG: Error al guardar producto: " + e.getMessage());
+        e.printStackTrace();
+        throw e;
+    }
 }
 
 

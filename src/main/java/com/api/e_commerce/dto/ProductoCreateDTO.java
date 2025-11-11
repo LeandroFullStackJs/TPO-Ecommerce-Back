@@ -13,8 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductoCreateDTO {
-    @NotBlank(message = "El nombre es obligatorio")
-    private String nombre;
+    @NotBlank(message = "El nombre de la obra es obligatorio")
+    private String nombreObra;
     
     private String descripcion;
     
