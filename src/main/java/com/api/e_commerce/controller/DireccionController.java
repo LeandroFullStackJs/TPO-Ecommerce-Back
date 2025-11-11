@@ -9,7 +9,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid; 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -38,9 +37,8 @@ public class DireccionController {
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()") 
     public ResponseEntity<DireccionDTO> obtenerDireccionPorId(@PathVariable Long id) {
-        Optional<DireccionDTO> direccion = direccionService.obtenerDireccionPorId(id);
-        return direccion.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build()); // Mantenemos 404 si el servicio devuelve vacío
+        DireccionDTO direccion = direccionService.obtenerDireccionPorId(id);
+        return ResponseEntity.ok(direccion);
     }
 
     @PostMapping
@@ -54,17 +52,14 @@ public class DireccionController {
     @PutMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<DireccionDTO> actualizarDireccion(@PathVariable Long id, @Valid @RequestBody DireccionDTO direccionDTO) {
-        Optional<DireccionDTO> direccionActualizada = direccionService.actualizarDireccion(id, direccionDTO);
-        return direccionActualizada.map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build()); // Mantenemos 404 si el servicio devuelve vacío
+        DireccionDTO direccionActualizada = direccionService.actualizarDireccion(id, direccionDTO);
+        return ResponseEntity.ok(direccionActualizada);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("isAuthenticated()") 
     public ResponseEntity<Void> eliminarDireccion(@PathVariable Long id) {
-        if (direccionService.eliminarDireccion(id)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build(); // Mantenemos 404 si el servicio devuelve false
+        direccionService.eliminarDireccion(id);
+        return ResponseEntity.noContent().build();
     }
 }
