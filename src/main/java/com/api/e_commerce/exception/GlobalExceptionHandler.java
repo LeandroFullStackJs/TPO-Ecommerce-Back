@@ -108,6 +108,21 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(DireccionNotFoundException.class)
+    public ResponseEntity<ErrorResponse> manejarDireccionNoEncontrada(
+            DireccionNotFoundException ex, WebRequest request) {
+        logger.warn("Dirección no encontrada: {}", ex.getMessage());
+        
+        ErrorResponse errorResponse = new ErrorResponse(
+            HttpStatus.NOT_FOUND.value(),
+            "Dirección No Encontrada",
+            ex.getMessage(),
+            request.getDescription(false).replace("uri=", "")
+        );
+        
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(DuplicateDataException.class)
     public ResponseEntity<ErrorResponse> manejarDatosDuplicados(
             DuplicateDataException ex, WebRequest request) {

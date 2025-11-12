@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import com.api.e_commerce.exception.DireccionNotFoundException;
+import com.api.e_commerce.exception.UsuarioNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -30,11 +32,9 @@ public class DireccionService {
         if (email == null) {
             return List.of();
         }
-        Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
-        if (usuarioOpt.isEmpty()) {
-            return List.of();
-        }
-        Usuario usuario = usuarioOpt.get();
+        Usuario usuario = usuarioRepository.findByEmail(email)
+            .orElseThrow(() -> new UsuarioNotFoundException("Usuario no encontrado con email: " + email));
+        
         return direccionRepository.findByUsuario_Id(usuario.getId()).stream()
                 .map(this::convertirADTO)
                 .collect(Collectors.toList());
@@ -46,9 +46,10 @@ public class DireccionService {
                 .collect(Collectors.toList());
     }
     
-    public Optional<DireccionDTO> obtenerDireccionPorId(Long id) {
+    public DireccionDTO obtenerDireccionPorId(Long id) {
         return direccionRepository.findById(id)
-                .map(this::convertirADTO);
+                .map(this::convertirADTO)
+                .orElseThrow(() -> new DireccionNotFoundException(id));
     }
     
     public DireccionDTO crearDireccion(DireccionDTO direccionDTO) {
@@ -58,34 +59,36 @@ public class DireccionService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             String email = authentication.getName();
-            Optional<Usuario> usuarioOpt = usuarioRepository.findByEmail(email);
-            if (usuarioOpt.isPresent()) {
-                direccion.setUsuario(usuarioOpt.get());
-            }
+            Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioNotFoundException("Usuario no autenticado o no encontrado."));
+            direccion.setUsuario(usuario);
+        } else {
+             throw new UsuarioNotFoundException("No hay un usuario autenticado para asociar la dirección.");
         }
         
         Direccion direccionGuardada = direccionRepository.save(direccion);
         return convertirADTO(direccionGuardada);
     }
     
-    public Optional<DireccionDTO> actualizarDireccion(Long id, DireccionDTO direccionDTO) {
-        return direccionRepository.findById(id)
-                .map(direccion -> {
-                    direccion.setCalle(direccionDTO.getCalle());
-                    direccion.setNumero(direccionDTO.getNumero());
-                    direccion.setLocalidad(direccionDTO.getLocalidad());
-                    direccion.setProvincia(direccionDTO.getProvincia());
-                    direccion.setPais(direccionDTO.getPais());
-                    return convertirADTO(direccionRepository.save(direccion));
-                });
+    public DireccionDTO actualizarDireccion(Long id, DireccionDTO direccionDTO) {
+        Direccion direccion = direccionRepository.findById(id)
+            .orElseThrow(() -> new DireccionNotFoundException(id));
+
+        direccion.setCalle(direccionDTO.getCalle());
+        direccion.setNumero(direccionDTO.getNumero());
+        direccion.setLocalidad(direccionDTO.getLocalidad());
+        direccion.setProvincia(direccionDTO.getProvincia());
+        direccion.setPais(direccionDTO.getPais());
+        
+        Direccion direccionActualizada = direccionRepository.save(direccion);
+        return convertirADTO(direccionActualizada);
     }
     
-    public boolean eliminarDireccion(Long id) {
-        if (direccionRepository.existsById(id)) {
-            direccionRepository.deleteById(id);
-            return true;
+    public void eliminarDireccion(Long id) {
+        if (!direccionRepository.existsById(id)) {
+            throw new DireccionNotFoundException(id);
         }
-        return false;
+        direccionRepository.deleteById(id);
     }
     
     private DireccionDTO convertirADTO(Direccion direccion) {
